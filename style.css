@@ -1,1 +1,89 @@
-/* Add styles here */
+:root {
+    --bg-gradient: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    --container-bg: transparent;
+    --text-color: #333;
+    --button-bg: #ff7eb3;
+    --button-hover: #ff4f91;
+    --item-bg: white;
+    --item-shadow: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #2c3e50, #000000);
+    --container-bg: #1e1e1e;
+    --text-color: #f1f1f1;
+    --button-bg: #6c5ce7;
+    --button-hover: #a29bfe;
+    --item-bg: #333;
+    --item-shadow: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: var(--bg-gradient);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
+}
+
+.container {
+    padding-top: 80px;
+}
+
+h1 {
+    color: var(--text-color);
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--button-bg);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+#fortune {
+    margin-top: 30px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#history {
+    margin-top: 40px;
+    padding: 20px;
+}
+
+.history-item {
+    background: var(--item-bg);
+    color: var(--text-color);
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 8px;
+    width: 60%;
+    box-shadow: 0 2px 5px var(--item-shadow);
+    transition: background 0.3s, color 0.3s;
+}
+
+.title {
+    margin-top: 50px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+}
