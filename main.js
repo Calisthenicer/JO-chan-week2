@@ -10,6 +10,8 @@ const fortunes = [
 ];
 
 let historyList = [];
+let currentPage = 1;
+const itemsPerPage = 10;
 
 function showFortune() {
     const randomIndex = Math.floor(Math.random() * fortunes.length);
@@ -24,20 +26,47 @@ function showFortune() {
     // 현재 운세 표시
     fortuneDisplay.innerText = newFortune;
 
-    // 기록 출력
+    // 새로운 운세를 볼 때마다 1페이지로 이동하여 최신 기록 확인
+    currentPage = 1;
     renderHistory();
 }
 
 function renderHistory() {
     const historyDiv = document.getElementById("history");
+    const pageInfo = document.getElementById("page-info");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    
     historyDiv.innerHTML = "";
 
-    historyList.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "history-item";
-        div.innerText = (index + 1) + ". " + item;
-        historyDiv.appendChild(div);
-    });
+    const totalPages = Math.max(1, Math.ceil(historyList.length / itemsPerPage));
+    
+    // 현재 페이지에 해당하는 데이터 슬라이스
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedItems = historyList.slice(start, end);
+
+    if (historyList.length === 0) {
+        historyDiv.innerHTML = "<p style='text-align:center; opacity:0.6;'>아직 기록이 없습니다.</p>";
+    } else {
+        paginatedItems.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.className = "history-item";
+            const actualIndex = start + index + 1;
+            div.innerText = actualIndex + ". " + item;
+            historyDiv.appendChild(div);
+        });
+    }
+
+    // 페이징 정보 업데이트
+    pageInfo.innerText = `${currentPage} / ${totalPages}`;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+}
+
+function changePage(direction) {
+    currentPage += direction;
+    renderHistory();
 }
 
 function toggleTheme() {
@@ -53,7 +82,6 @@ function toggleTheme() {
     }
 }
 
-// 페이지 로드 시 테마 설정 초기화
 document.addEventListener("DOMContentLoaded", () => {
     const savedTheme = localStorage.getItem("theme") || "light";
     document.documentElement.setAttribute("data-theme", savedTheme);
@@ -62,4 +90,5 @@ document.addEventListener("DOMContentLoaded", () => {
     if (toggleBtn) {
         toggleBtn.innerText = savedTheme === "dark" ? "☀️ 라이트모드" : "🌙 다크모드";
     }
+    renderHistory();
 });

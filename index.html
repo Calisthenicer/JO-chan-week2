@@ -12,12 +12,26 @@
 
 <div class="container">
     <h1>🔮 오늘의 운세</h1>
-    <button onclick="showFortune()">운세 보기</button>
+    
+    <div class="main-content">
+        <!-- 왼쪽: 운세 보기 섹션 -->
+        <div class="fortune-section">
+            <button class="main-btn" onclick="showFortune()">운세 보기</button>
+            <div id="fortune"></div>
+        </div>
 
-    <div id="fortune"></div>
-
-    <div class="title">📜 이전 운세 기록</div>
-    <div id="history"></div>
+        <!-- 오른쪽: 기록 섹션 -->
+        <div class="history-section">
+            <div class="title">📜 이전 운세 기록</div>
+            <div id="history"></div>
+            <!-- 페이징 컨트롤 -->
+            <div class="pagination">
+                <button id="prev-btn" onclick="changePage(-1)" disabled>이전</button>
+                <span id="page-info">1 / 1</span>
+                <button id="next-btn" onclick="changePage(1)" disabled>다음</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="main.js"></script>

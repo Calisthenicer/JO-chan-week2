@@ -1,26 +1,25 @@
 :root {
     --bg-gradient: linear-gradient(135deg, #74ebd5, #ACB6E5);
-    --container-bg: transparent;
     --text-color: #333;
     --button-bg: #ff7eb3;
     --button-hover: #ff4f91;
     --item-bg: white;
     --item-shadow: rgba(0, 0, 0, 0.1);
+    --border-color: #ddd;
 }
 
 [data-theme="dark"] {
     --bg-gradient: linear-gradient(135deg, #2c3e50, #000000);
-    --container-bg: #1e1e1e;
     --text-color: #f1f1f1;
     --button-bg: #6c5ce7;
     --button-hover: #a29bfe;
     --item-bg: #333;
     --item-shadow: rgba(255, 255, 255, 0.1);
+    --border-color: #444;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+    font-family: 'Pretendard', sans-serif;
     background: var(--bg-gradient);
     color: var(--text-color);
     margin: 0;
@@ -30,54 +29,113 @@ body {
 }
 
 .container {
-    padding-top: 80px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
 }
 
 h1 {
-    color: var(--text-color);
+    margin-bottom: 40px;
 }
 
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 10px;
-    background-color: var(--button-bg);
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    align-items: flex-start;
 }
 
-button:hover {
-    background-color: var(--button-hover);
+/* 왼쪽 섹션 */
+.fortune-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
 }
 
-#fortune {
-    margin-top: 30px;
-    font-size: 22px;
+.main-btn {
+    padding: 20px 40px;
+    font-size: 20px;
     font-weight: bold;
 }
 
-#history {
+#fortune {
     margin-top: 40px;
+    font-size: 24px;
+    font-weight: bold;
+    min-height: 100px;
+    word-break: keep-all;
+}
+
+/* 오른쪽 섹션 */
+.history-section {
+    flex: 1;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.05);
     padding: 20px;
+    border-radius: 20px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#history {
+    flex-grow: 1;
 }
 
 .history-item {
     background: var(--item-bg);
     color: var(--text-color);
-    margin: 10px auto;
-    padding: 10px;
-    border-radius: 8px;
-    width: 60%;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    border-radius: 10px;
     box-shadow: 0 2px 5px var(--item-shadow);
-    transition: background 0.3s, color 0.3s;
+    font-size: 15px;
 }
 
-.title {
-    margin-top: 50px;
-    font-size: 20px;
-    font-weight: bold;
+/* 페이징 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    background-color: var(--button-bg);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
 }
 
 .theme-toggle {
@@ -85,5 +143,11 @@ button:hover {
     top: 20px;
     right: 20px;
     padding: 10px 20px;
-    font-size: 14px;
+    z-index: 100;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
 }
