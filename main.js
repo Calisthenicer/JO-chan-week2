@@ -1,103 +1,77 @@
-const workoutDB = {
-    arms: {
-        name: "팔 (Arms) 집중 루틴",
-        exercises: [
-            { name: "친업 (Chin-ups)", easy: "어시스티드 친업", hard: "중량 친업" },
-            { name: "다이아몬드 푸쉬업", easy: "무릎 다이아몬드 푸쉬업", hard: "아처 푸쉬업" },
-            { name: "벤치 딥스", easy: "무릎 굽힌 벤치 딥스", hard: "평행봉 딥스" }
-        ]
-    },
-    back: {
-        name: "등 (Back) 집중 루틴",
-        exercises: [
-            { name: "풀업 (Pull-ups)", easy: "네거티브 풀업", hard: "와이드 그립 풀업" },
-            { name: "인버티드 로우", easy: "무릎 굽힌 인버티드 로우", hard: "원 레그 인버티드 로우" },
-            { name: "홀드 (Dead Hang)", easy: "발 대고 홀드", hard: "한 팔 홀드" }
-        ]
-    },
-    chest: {
-        name: "가슴 (Chest) 집중 루틴",
-        exercises: [
-            { name: "평행봉 딥스", easy: "네거티브 딥스", hard: "중량 딥스" },
-            { name: "푸쉬업", easy: "무릎 푸쉬업", hard: "디클라인 푸쉬업" },
-            { name: "와이드 푸쉬업", easy: "인클라인 푸쉬업", hard: "아처 푸쉬업" }
-        ]
-    },
-    upper: {
-        name: "상체 (Upper Body) 전체 루틴",
-        exercises: [
-            { name: "풀업", easy: "호주식 풀업", hard: "머슬업 시도" },
-            { name: "딥스", easy: "밴드 딥스", hard: "엘싯(L-sit) 딥스" },
-            { name: "푸쉬업", easy: "월 푸쉬업", hard: "플란체 푸쉬업 시도" }
-        ]
-    },
-    lower: {
-        name: "하체 (Lower Body) 루틴",
-        exercises: [
-            { name: "스쿼트", easy: "박스 스쿼트", hard: "점프 스쿼트" },
-            { name: "런지", easy: "서포티드 런지", hard: "불가리안 스플릿 스쿼트" },
-            { name: "피스톨 스쿼트 시도", easy: "서포티드 피스톨 스쿼트", hard: "중량 피스톨 스쿼트" }
-        ]
-    },
-    push: {
-        name: "밀기 (Push) 루틴",
-        exercises: [
-            { name: "핸드스탠드 푸쉬업 시도", easy: "파이크 푸쉬업", hard: "자유형 핸드스탠드 푸쉬업" },
-            { name: "딥스", easy: "벤치 딥스", hard: "링 딥스" },
-            { name: "다이아몬드 푸쉬업", easy: "일반 푸쉬업", hard: "폭발적 푸쉬업 (박수)" }
-        ]
-    },
-    pull: {
-        name: "당기기 (Pull) 루틴",
-        exercises: [
-            { name: "풀업", easy: "점핑 풀업", hard: "엘싯 풀업" },
-            { name: "친업", easy: "언더그립 로우", hard: "한 팔 친업 시도" },
-            { name: "커맨도 풀업", easy: "스캐풀라 풀업", hard: "타이프라이터 풀업" }
-        ]
-    }
+// 운동 라인업 (재귀적 프로그레션)
+const progressions = {
+    pull: [
+        { name: "데드행 (Dead Hang)", sets: "3세트 x 30초", rest: "60초" },
+        { name: "스캐풀라 풀업 (Scapula Pull-ups)", sets: "3세트 x 10회", rest: "60초" },
+        { name: "호주식 풀업 (Australian Pull-ups)", sets: "3세트 x 12회", rest: "90초" },
+        { name: "네거티브 풀업 (Negative Pull-ups)", sets: "4세트 x 8회", rest: "120초" },
+        { name: "표준 풀업 (Pull-ups)", sets: "4세트 x 8~10회", rest: "120초" },
+        { name: "L-싯 풀업 (L-sit Pull-ups)", sets: "3세트 x 6회", rest: "150초" },
+        { name: "아처 풀업 (Archer Pull-ups)", sets: "3세트 x 5회", rest: "180초" },
+        { name: "머슬업 (Muscle-ups)", sets: "3세트 x 3~5회", rest: "180초" }
+    ],
+    push: [
+        { name: "월 푸쉬업 (Wall Push-ups)", sets: "3세트 x 15회", rest: "60초" },
+        { name: "인클라인 푸쉬업 (Incline Push-ups)", sets: "3세트 x 12회", rest: "60초" },
+        { name: "무릎 푸쉬업 (Knee Push-ups)", sets: "3세트 x 12회", rest: "60초" },
+        { name: "표준 푸쉬업 (Push-ups)", sets: "4세트 x 12~15회", rest: "90초" },
+        { name: "다이아몬드 푸쉬업 (Diamond Push-ups)", sets: "3세트 x 10회", rest: "90초" },
+        { name: "의자 딥스 (Bench Dips)", sets: "3세트 x 12회", rest: "90초" },
+        { name: "평행봉 딥스 (Dips)", sets: "4세트 x 8~10회", rest: "120초" },
+        { name: "파이크 푸쉬업 (Pike Push-ups)", sets: "3세트 x 8회", rest: "120초" },
+        { name: "핸드스탠드 푸쉬업 (Wall HSPU)", sets: "3세트 x 5회", rest: "180초" }
+    ],
+    lower: [
+        { name: "박스 스쿼트 (Box Squats)", sets: "3세트 x 15회", rest: "60초" },
+        { name: "표준 스쿼트 (Squats)", sets: "4세트 x 20회", rest: "90초" },
+        { name: "런지 (Lunges)", sets: "3세트 x 12회(각 다리)", rest: "90초" },
+        { name: "불가리안 스플릿 스쿼트 (BSS)", sets: "3세트 x 10회(각 다리)", rest: "120초" },
+        { name: "코사크 스쿼트 (Cossack Squats)", sets: "3세트 x 8회(각 다리)", rest: "120초" },
+        { name: "어시스티드 피스톨 스쿼트", sets: "3세트 x 5회(각 다리)", rest: "150초" },
+        { name: "피스톨 스쿼트 (Pistol Squats)", sets: "3세트 x 5회(각 다리)", rest: "180초" }
+    ]
+};
+
+// 부위별 기본 라인업 매핑
+const partMapping = {
+    arms: ["pull", "push"],
+    back: ["pull"],
+    chest: ["push"],
+    upper: ["pull", "push"],
+    lower: ["lower"],
+    push: ["push"],
+    pull: ["pull"]
 };
 
 const goalAdvice = {
     strength: {
-        meta: "5세트 x 5회 | 휴식: 3분",
-        mindset: "매 세트마다 최대의 힘을 쏟으세요. 실패 지점까지 가기보다는 완벽한 자세로 무거운 부하(변형 동작)를 다루는 것이 핵심입니다.",
-        diet: "단백질 섭취를 체중당 1.8g 이상으로 유지하고, 탄수화물을 충분히 섭취하여 글리코겐을 보충하세요."
+        mindset: "신경계를 깨우세요. '횟수'가 아니라 '부하'에 집중해야 합니다. 한 번을 하더라도 몸이 찢어지는 듯한 텐션을 유지하는 것이 스트렝스의 핵심입니다.",
+        diet: "폭발적 에너지를 위해 현미밥, 바나나 같은 복합 탄수화물을 섭취하고, 근신경 회복을 위해 소고기나 연어 같은 고품질 단백질을 충분히 드세요.",
+        mistakes: [
+            { title: "실패 지점 강박", content: "매 세트 실패 지점까지 가면 근신경계가 과부하되어 다음 운동의 효율이 40% 이상 급감합니다. 1~2회 정도 더 할 수 있을 때 멈추는 RPE 8-9 수준이 가장 과학적입니다." },
+            { title: "불충분한 휴식", content: "ATP(에너지원)가 재합성되는 데는 최소 3분이 필요합니다. 조급함에 짧게 쉬면 힘이 아니라 심폐지구력 훈련이 되어버립니다." }
+        ]
     },
     hypertrophy: {
-        meta: "4세트 x 8~12회 | 휴식: 1.5분",
-        mindset: "근육의 수축과 이완에 집중하세요. 템포를 천천히(내려갈 때 3초) 가져가며 근비대를 유도하는 스트레스를 주어야 합니다.",
-        diet: "잉여 칼로리를 200~300kcal 정도 유지하는 '린매스업' 식단을 추천합니다. 끼니마다 단백질을 포함하세요."
-    },
-    endurance: {
-        meta: "3세트 x 15~20회 | 휴식: 45초",
-        mindset: "숨이 차오르고 근육이 타오르는 느낌을 즐기세요. 짧은 휴식 시간 동안 회복하는 능력을 기르는 것이 목표입니다.",
-        diet: "복합 탄수화물(현미, 고구마)을 통해 지속적인 에너지를 공급받으세요. 수분 보충이 매우 중요합니다."
-    },
-    diet: {
-        meta: "4세트 x 12~15회 | 휴식: 1분",
-        mindset: "심박수를 높게 유지하세요. 운동 사이사이에 가벼운 스트레칭이나 제자리 뛰기를 섞어 칼로리 소모를 극대화합니다.",
-        diet: "정제 탄수화물과 설탕을 끊으세요. 채소 위주의 식이섬유와 양질의 지방, 저지방 단백질(닭가슴살, 흰살생선)로 구성하세요."
+        mindset: "근육의 고립과 펌핑을 느끼세요. 타겟 근육이 타들어가는 느낌이 없다면 단순히 관절로만 움직이고 있는 것일 수 있습니다.",
+        diet: "근비대를 위해 닭가슴살, 계란 흰자뿐만 아니라 아보카도, 견과류 같은 양질의 지방을 함께 드세요. 근육 성장을 위한 호르몬 생성에 필수적입니다.",
+        mistakes: [
+            { title: "반동 사용 (Cheating)", content: "반동을 쓰는 순간 타겟 근육의 기계적 긴장(Mechanical Tension)이 풀립니다. 이는 근비대를 방해하고 건과 인대의 부상 위험을 2.5배 높입니다." },
+            { title: "수면 부족", content: "근육은 운동할 때가 아니라 잘 때 자랍니다. 7시간 미만의 수면은 단백질 합성률을 떨어뜨려 운동 노력을 수포로 만듭니다." }
+        ]
     }
 };
 
-let selectedPart = null;
-let selectedGoal = null;
+// 기본 목표 조언 (기타 목적용)
+const defaultAdvice = goalAdvice.hypertrophy;
 
-// 공통 페이지 전환 및 버튼 선택 로직
+let currentWorkoutState = []; // [{pattern: 'pull', index: 4}, ...]
+
 function setupSelection() {
-    document.querySelectorAll('#part-selection .select-item').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('#part-selection .select-item').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            selectedPart = btn.dataset.value;
-        });
-    });
-
-    document.querySelectorAll('#goal-selection .select-item').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('#goal-selection .select-item').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            selectedGoal = btn.dataset.value;
+    document.querySelectorAll('.select-item').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.querySelectorAll('.select-item').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
         });
     });
 }
@@ -105,59 +79,107 @@ function setupSelection() {
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
-
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(pageId));
     if (activeBtn) activeBtn.classList.add('active');
 }
 
 function generateWorkout() {
-    if (!selectedPart || !selectedGoal) {
-        alert("부위와 목적을 모두 선택해주세요!");
+    const partBtn = document.querySelector('#part-selection .selected');
+    const goalBtn = document.querySelector('#goal-selection .selected');
+
+    if (!partBtn || !goalBtn) {
+        alert("부위와 목적을 선택해주세요!");
         return;
     }
 
-    const workout = workoutDB[selectedPart];
-    const advice = goalAdvice[selectedGoal];
-    
-    // 1. 운동 루틴 렌더링
-    const resultDiv = document.getElementById("workout-result");
-    resultDiv.innerHTML = `<h3>${workout.name} (${selectedGoal.toUpperCase()})</h3>`;
-    
-    workout.exercises.forEach(ex => {
-        const item = document.createElement("div");
-        item.className = "routine-item";
-        item.innerHTML = `
-            <span class="routine-name">${ex.name}</span>
-            <span class="routine-meta">${advice.meta}</span>
-        `;
-        resultDiv.appendChild(item);
-    });
+    const part = partBtn.dataset.value;
+    const goal = goalBtn.dataset.value;
+    const patterns = partMapping[part];
+    const advice = goalAdvice[goal] || defaultAdvice;
 
-    // 2. 대체 운동 렌더링
-    document.getElementById("alternatives").style.display = "block";
-    document.getElementById("easy-alt").innerHTML = workout.exercises.map(ex => `<li>${ex.easy}</li>`).join('');
-    document.getElementById("hard-alt").innerHTML = workout.exercises.map(ex => `<li>${ex.hard}</li>`).join('');
+    // 초기 상태 설정 (각 패턴의 중간 난이도로 시작)
+    currentWorkoutState = patterns.map(p => ({
+        pattern: p,
+        index: Math.floor(progressions[p].length / 2)
+    }));
 
-    // 3. 가이드 콘텐츠 렌더링
-    const guideDiv = document.getElementById("guide-content");
-    guideDiv.innerHTML = `
-        <div class="guide-section">
-            <h4>🧠 오늘의 마음가짐</h4>
-            <p>${advice.mindset}</p>
-        </div>
-        <div class="guide-section">
-            <h4>🥗 추천 영양 전략</h4>
-            <p>${advice.diet}</p>
-        </div>
-        <div class="guide-section">
-            <h4>💡 팁</h4>
-            <p>모든 동작은 철봉을 꽉 쥐는 것부터 시작합니다. 전완근의 긴장을 유지하며 견갑골을 먼저 움직이는 연습을 하세요.</p>
+    renderWorkout(advice);
+    showPage('workout-page');
+}
+
+function renderWorkout(advice) {
+    const container = document.getElementById("workout-result");
+    container.innerHTML = `
+        <div class="mindset-top">
+            <h4>🧠 WORKOUT MINDSET</h4>
+            <p>"${advice.mindset}"</p>
         </div>
     `;
 
-    // 결과 페이지로 이동
-    showPage('workout-page');
+    currentWorkoutState.forEach((state, stateIndex) => {
+        const exercise = progressions[state.pattern][state.index];
+        const workoutBox = document.createElement("div");
+        workoutBox.className = "active-workout-card";
+        workoutBox.innerHTML = `
+            <div class="exercise-display">
+                <span class="pattern-label">${state.pattern.toUpperCase()} PATTERN</span>
+                <h3 class="exercise-name">${exercise.name}</h3>
+                <div class="stats-row">
+                    <div class="stat-item"><strong>세트</strong><br>${exercise.sets}</div>
+                    <div class="stat-item"><strong>휴식</strong><br>${exercise.rest}</div>
+                </div>
+                <div class="difficulty-controls">
+                    <button class="diff-btn easy" onclick="changeDifficulty(${stateIndex}, -1)">더 쉽게 (-)</button>
+                    <button class="diff-btn hard" onclick="changeDifficulty(${stateIndex}, 1)">더 어렵게 (+)</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(workoutBox);
+    });
+
+    // 주의사항 섹션 추가
+    const mistakeSection = document.createElement("div");
+    mistakeSection.className = "mistake-section";
+    mistakeSection.innerHTML = `<h3>⚠️ 주의: 흔히 저지르는 치명적 실수</h3>`;
+    advice.mistakes.forEach(m => {
+        mistakeSection.innerHTML += `
+            <div class="mistake-card">
+                <h4>${m.title}</h4>
+                <p>${m.content}</p>
+            </div>
+        `;
+    });
+    container.appendChild(mistakeSection);
+
+    // 영양 가이드 업데이트
+    const guideDiv = document.getElementById("guide-content");
+    guideDiv.innerHTML = `
+        <div class="guide-section">
+            <h4>🥗 추천 영양 가이드</h4>
+            <p>${advice.diet}</p>
+            <div class="food-examples">
+                <strong>추천 식품 예시:</strong><br>
+                단백질: 수비드 닭가슴살, 삶은 달걀, 틸라피아, 그릭 요거트<br>
+                탄수화물: 고구마, 퀴노아, 통밀빵, 오트밀<br>
+                지방: 구운 아몬드, 엑스트라 버진 올리브유, 아보카도
+            </div>
+        </div>
+    `;
+}
+
+function changeDifficulty(stateIndex, direction) {
+    const state = currentWorkoutState[stateIndex];
+    const newIndex = state.index + direction;
+
+    if (newIndex >= 0 && newIndex < progressions[state.pattern].length) {
+        state.index = newIndex;
+        const goalBtn = document.querySelector('#goal-selection .selected');
+        const advice = goalAdvice[goalBtn.dataset.value] || defaultAdvice;
+        renderWorkout(advice);
+    } else {
+        alert(direction > 0 ? "이미 최고 난이도 운동입니다!" : "이미 가장 쉬운 단계의 운동입니다!");
+    }
 }
 
 function toggleTheme() {

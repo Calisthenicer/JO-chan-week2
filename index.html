@@ -3,26 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💪 CALI-ROUTINE | 철봉 하나로 만드는 완벽한 몸</title>
+    <title>💪 CALI-ROUTINE | 전문 맨몸운동 루틴 가이드</title>
     
     <!-- 구글 애드센스 설정 -->
     <meta name="google-adsense-account" content="ca-pub-5784800605906401">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5784800605906401" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="style.css">
-    
-    <!-- SEO 설정 -->
-    <meta name="description" content="철봉만으로 구성된 맨몸운동 루틴 추천 서비스. 부위별 맞춤 운동과 난이도 조절, 식단 가이드를 제공합니다.">
-    <meta name="keywords" content="맨몸운동, 캘리스데닉스, 운동루틴, 홈트레이닝, 철봉운동, 다이어트, 벌크업">
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleTheme()">🌙 다크모드</button>
+<button class="theme-toggle" onclick="toggleTheme()">🌓 테마 전환</button>
 
 <nav class="navbar">
     <button class="nav-btn active" onclick="showPage('setup-page')">🎯 루틴 설정</button>
     <button class="nav-btn" onclick="showPage('workout-page')">🏋️ 오늘의 운동</button>
-    <button class="nav-btn" onclick="showPage('guide-page')">🥗 영양 & 마인드셋</button>
+    <button class="nav-btn" onclick="showPage('guide-page')">🥗 영양 전략</button>
     <button class="nav-btn" onclick="showPage('privacy-page')">⚖️ 정책 안내</button>
 </nav>
 
@@ -30,29 +26,27 @@
     <!-- 1페이지: 루틴 설정 -->
     <div id="setup-page" class="page active">
         <h1>🏋️ CALI-ROUTINE</h1>
-        <p class="intro-text">철봉 하나로 충분합니다. 당신의 오늘 목적과 부위를 선택하세요.</p>
+        <p class="intro-text">과학적인 프로그레션 기반의 맨몸운동 루틴을 생성합니다.</p>
         
         <div class="setup-container">
             <div class="setup-group">
                 <h3>1. 오늘 집중할 부위</h3>
                 <div class="selection-grid" id="part-selection">
-                    <button class="select-item" data-value="arms">팔 (Arms)</button>
-                    <button class="select-item" data-value="back">등 (Back)</button>
-                    <button class="select-item" data-value="chest">가슴 (Chest)</button>
-                    <button class="select-item" data-value="upper">상체 (Upper)</button>
-                    <button class="select-item" data-value="lower">하체 (Lower)</button>
-                    <button class="select-item" data-value="push">밀기 (Push)</button>
-                    <button class="select-item" data-value="pull">당기기 (Pull)</button>
+                    <button class="select-item" data-value="arms">팔</button>
+                    <button class="select-item" data-value="back">등</button>
+                    <button class="select-item" data-value="chest">가슴</button>
+                    <button class="select-item" data-value="upper">상체 전체</button>
+                    <button class="select-item" data-value="lower">하체</button>
+                    <button class="select-item" data-value="push">밀기</button>
+                    <button class="select-item" data-value="pull">당기기</button>
                 </div>
             </div>
 
             <div class="setup-group">
                 <h3>2. 운동 목적</h3>
                 <div class="selection-grid" id="goal-selection">
-                    <button class="select-item" data-value="strength">스트렝스 (근력 증진)</button>
-                    <button class="select-item" data-value="hypertrophy">근비대 (몸 만들기)</button>
-                    <button class="select-item" data-value="endurance">지구력 (체력 강화)</button>
-                    <button class="select-item" data-value="diet">다이어트 (체지방 연소)</button>
+                    <button class="select-item" data-value="strength">스트렝스</button>
+                    <button class="select-item" data-value="hypertrophy">근비대</button>
                 </div>
             </div>
 
@@ -60,48 +54,38 @@
         </div>
     </div>
 
-    <!-- 2페이지: 운동 루틴 결과 -->
+    <!-- 2페이지: 운동 루틴 (동적 생성) -->
     <div id="workout-page" class="page">
-        <h2>🏋️ 생성된 맞춤 루틴</h2>
-        <div id="workout-result" class="workout-card">
-            <p class="placeholder-text">루틴 설정 탭에서 정보를 입력해주세요.</p>
-        </div>
-        
-        <div class="alternative-section" id="alternatives" style="display: none;">
-            <h3>난이도가 맞지 않으신가요?</h3>
-            <div class="alt-grid">
-                <div class="alt-card easy">
-                    <h4>쉬운 변형 (Hard for me)</h4>
-                    <div id="easy-alt">-</div>
-                </div>
-                <div class="alt-card hard">
-                    <h4>어려운 변형 (Too easy)</h4>
-                    <div id="hard-alt">-</div>
-                </div>
-            </div>
+        <h2>🏋️ 맞춤 트레이닝 루틴</h2>
+        <div id="workout-result">
+            <p class="placeholder-text" style="text-align: center; padding: 50px; opacity: 0.5;">
+                루틴 설정 탭에서 부위와 목적을 선택해 주세요.
+            </p>
         </div>
     </div>
 
-    <!-- 3페이지: 영양 & 마인드셋 -->
+    <!-- 3페이지: 영양 전략 -->
     <div id="guide-page" class="page">
-        <h2>🥗 영양 및 마인드셋 가이드</h2>
+        <h2>🥗 목적별 영양 가이드</h2>
         <div id="guide-content" class="guide-container">
-            <p class="placeholder-text">루틴을 생성하면 맞춤형 가이드가 여기에 표시됩니다.</p>
+            <p class="placeholder-text" style="text-align: center; padding: 50px; opacity: 0.5;">
+                루틴을 생성하면 맞춤형 식단 가이드가 표시됩니다.
+            </p>
         </div>
     </div>
 
     <!-- 4페이지: 정책 안내 -->
     <div id="privacy-page" class="page">
-        <h2>⚖️ 정책 및 면책 고지</h2>
-        <div class="policy-content">
-            <p><strong>1. 개인정보 처리</strong><br>본 사이트는 구글 애드센스 광고 게재를 위해 쿠키를 사용하며, 사용자의 선택 정보를 서버에 저장하지 않습니다.</p>
-            <p><strong>2. 안전 주의사항</strong><br>모든 운동은 본인의 체력 수준에 맞춰 진행해야 하며, 부상 방지를 위해 충분한 스트레칭을 선행하십시오. 무리한 운동으로 인한 부상에 대해 본 사이트는 책임을 지지 않습니다.</p>
+        <h2>⚖️ 법적 고지 및 정책</h2>
+        <div class="policy-content" style="background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: left;">
+            <p><strong>개인정보 처리:</strong> 본 사이트는 별도의 개인정보를 서버에 저장하지 않으며, 구글 애드센스 광고 최적화를 위한 쿠키만을 사용합니다.</p>
+            <p><strong>면책 조항:</strong> 제공되는 모든 운동 정보는 교육적 목적이며, 실제 수행 전 전문가의 상담을 권장합니다. 과도한 운동으로 인한 부상의 책임은 본인에게 있습니다.</p>
         </div>
     </div>
 </div>
 
 <footer class="site-footer">
-    <p>&copy; 2026 CALI-ROUTINE. Pull-up is all you need.</p>
+    <p>&copy; 2026 CALI-ROUTINE. Keep Pulling.</p>
 </footer>
 
 <script src="main.js"></script>
