@@ -13,6 +13,29 @@ let historyList = [];
 let currentPage = 1;
 const itemsPerPage = 10;
 
+// 페이지 전환 함수
+function showPage(pageId) {
+    // 모든 페이지 숨기기
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    // 선택한 페이지 보이기
+    document.getElementById(pageId).classList.add('active');
+
+    // 모든 내비게이션 버튼 비활성화
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    // 클릭한 버튼 활성화 (이벤트 타겟을 찾기 위해 처리)
+    const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => 
+        btn.getAttribute('onclick').includes(pageId)
+    );
+    if (activeBtn) activeBtn.classList.add('active');
+
+    // 페이지 전환 시 상단으로 스크롤
+    window.scrollTo(0, 0);
+}
+
 function showFortune() {
     const randomIndex = Math.floor(Math.random() * fortunes.length);
     const newFortune = fortunes[randomIndex];
@@ -37,6 +60,8 @@ function renderHistory() {
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
     
+    if (!historyDiv) return; // 페이지가 아닐 때 오류 방지
+
     historyDiv.innerHTML = "";
 
     const totalPages = Math.max(1, Math.ceil(historyList.length / itemsPerPage));
@@ -59,9 +84,9 @@ function renderHistory() {
     }
 
     // 페이징 정보 업데이트
-    pageInfo.innerText = `${currentPage} / ${totalPages}`;
-    prevBtn.disabled = currentPage === 1;
-    nextBtn.disabled = currentPage === totalPages;
+    if (pageInfo) pageInfo.innerText = `${currentPage} / ${totalPages}`;
+    if (prevBtn) prevBtn.disabled = currentPage === 1;
+    if (nextBtn) nextBtn.disabled = currentPage === totalPages;
 }
 
 function changePage(direction) {

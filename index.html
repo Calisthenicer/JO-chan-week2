@@ -10,70 +10,75 @@
 
 <button class="theme-toggle" onclick="toggleTheme()">🌙 다크모드</button>
 
+<nav class="navbar">
+    <button class="nav-btn active" onclick="showPage('fortune-page')">🔮 운세 보기</button>
+    <button class="nav-btn" onclick="showPage('contact-page')">🤝 제휴 문의</button>
+    <button class="nav-btn" onclick="showPage('comments-page')">💬 댓글 남기기</button>
+</nav>
+
 <div class="container">
-    <h1>🔮 오늘의 운세</h1>
-    
-    <div class="main-content">
-        <!-- 왼쪽: 운세 보기 섹션 -->
-        <div class="fortune-section">
-            <button class="main-btn" onclick="showFortune()">운세 보기</button>
-            <div id="fortune"></div>
-        </div>
-
-        <!-- 오른쪽: 기록 섹션 -->
-        <div class="history-section">
-            <div class="title">📜 이전 운세 기록</div>
-            <div id="history"></div>
-            <!-- 페이징 컨트롤 -->
-            <div class="pagination">
-                <button id="prev-btn" onclick="changePage(-1)" disabled>이전</button>
-                <span id="page-info">1 / 1</span>
-                <button id="next-btn" onclick="changePage(1)" disabled>다음</button>
+    <!-- 1페이지: 운세 보기 -->
+    <div id="fortune-page" class="page active">
+        <h1>🔮 오늘의 운세</h1>
+        <div class="main-content">
+            <div class="fortune-section">
+                <button class="main-btn" onclick="showFortune()">운세 보기</button>
+                <div id="fortune"></div>
+            </div>
+            <div class="history-section">
+                <div class="title">📜 이전 운세 기록</div>
+                <div id="history"></div>
+                <div class="pagination">
+                    <button id="prev-btn" onclick="changePage(-1)" disabled>이전</button>
+                    <span id="page-info">1 / 1</span>
+                    <button id="next-btn" onclick="changePage(1)" disabled>다음</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 제휴 문의 섹션 추가 -->
-    <div class="contact-section">
-        <h2>🤝 제휴 문의</h2>
-        <p>비즈니스 제휴 및 기타 문의사항을 남겨주세요.</p>
-        <form action="https://formspree.io/f/xojyaqgq" method="POST" class="contact-form">
-            <div class="form-group">
-                <label for="name">성함/기업명</label>
-                <input type="text" id="name" name="name" placeholder="홍길동" required>
-            </div>
-            <div class="form-group">
-                <label for="email">이메일 주소</label>
-                <input type="email" id="email" name="_replyto" placeholder="example@email.com" required>
-            </div>
-            <div class="form-group">
-                <label for="message">문의 내용</label>
-                <textarea id="message" name="message" rows="5" placeholder="제휴 제안 내용을 입력해주세요." required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">문의 보내기</button>
-        </form>
+    <!-- 2페이지: 제휴 문의 -->
+    <div id="contact-page" class="page">
+        <div class="contact-section">
+            <h2>🤝 제휴 문의</h2>
+            <p>비즈니스 제휴 및 기타 문의사항을 남겨주세요.</p>
+            <form action="https://formspree.io/f/xojyaqgq" method="POST" class="contact-form">
+                <div class="form-group">
+                    <label for="name">성함/기업명</label>
+                    <input type="text" id="name" name="name" placeholder="홍길동" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">이메일 주소</label>
+                    <input type="email" id="email" name="_replyto" placeholder="example@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">문의 내용</label>
+                    <textarea id="message" name="message" rows="8" placeholder="제휴 제안 내용을 입력해주세요." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">문의 보내기</button>
+            </form>
+        </div>
     </div>
 
-    <!-- Disqus 댓글 섹션 -->
-    <div id="disqus_thread" class="comments-section"></div>
-    <script>
-        /**
-        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-        /*
-        var disqus_config = function () {
-        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        */
-        (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        s.src = 'https://jochan-1.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <!-- 3페이지: 댓글 -->
+    <div id="comments-page" class="page">
+        <h2>💬 사용자 의견</h2>
+        <p>오늘의 운세에 대한 소감을 남겨주세요!</p>
+        <div id="disqus_thread" class="comments-section"></div>
+        <script>
+            var disqus_config = function () {
+                this.page.url = window.location.href;
+                this.page.identifier = 'jochan-fortune-main';
+            };
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://jochan-1.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
 </div>
 
 <script src="main.js"></script>
