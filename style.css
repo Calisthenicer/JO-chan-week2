@@ -5,52 +5,60 @@
     --secondary-color: #818cf8;
     --accent-color: #fb7185;
     --card-bg: #1e293b;
-    --nav-bg: rgba(15, 23, 42, 0.9);
-    --easy-color: #2dd4bf;
-    --hard-color: #f472b6;
+    --nav-bg: rgba(15, 23, 42, 0.95);
     --border-color: #334155;
     --tip-bg: rgba(56, 189, 248, 0.1);
 }
 
 [data-theme="light"] {
-    --bg-color: #f8fafc;
+    --bg-color: #f1f5f9;
     --text-color: #0f172a;
     --primary-color: #0284c7;
     --secondary-color: #4f46e5;
     --accent-color: #e11d48;
     --card-bg: #ffffff;
-    --nav-bg: rgba(248, 250, 252, 0.9);
-    --easy-color: #0d9488;
-    --hard-color: #db2777;
+    --nav-bg: rgba(241, 245, 249, 0.95);
     --border-color: #e2e8f0;
     --tip-bg: #f0f9ff;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     font-family: 'Pretendard', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
-    margin: 0;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s;
 }
 
 .container {
+    flex: 1; /* 푸터를 하단으로 밀어내기 위함 */
     max-width: 800px;
+    width: 100%;
     margin: 0 auto;
-    padding: 20px 20px 100px;
+    padding: 40px 20px;
+    box-sizing: border-box;
 }
 
-/* Navbar */
+/* Navbar - 앱 바 스타일 */
 .navbar {
     position: sticky;
     top: 0;
     display: flex;
     justify-content: center;
-    padding: 10px;
+    padding: 15px;
     background: var(--nav-bg);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     z-index: 1000;
     border-bottom: 1px solid var(--border-color);
+    gap: 5px;
 }
 
 .nav-btn {
@@ -61,46 +69,52 @@ body {
     border: none;
     color: var(--text-color);
     cursor: pointer;
-    border-radius: 8px;
-    opacity: 0.6;
+    border-radius: 10px;
+    opacity: 0.5;
+    transition: 0.3s;
+    white-space: nowrap;
 }
 
-.nav-btn.active { opacity: 1; color: var(--primary-color); }
-.nav-btn:disabled { cursor: not-allowed; opacity: 0.2; }
+.nav-btn.active {
+    opacity: 1;
+    color: var(--primary-color);
+    background: rgba(56, 189, 248, 0.1);
+}
 
-/* Setup & Assessment */
+.nav-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.1;
+}
+
+/* Page Transitions */
+.page {
+    display: none;
+    width: 100%;
+    min-height: 60vh;
+}
+
+.page.active {
+    display: block;
+    animation: pageIn 0.4s ease-out forwards;
+}
+
+@keyframes pageIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Elements */
 .setup-container {
     background: var(--card-bg);
     padding: 30px;
     border-radius: 24px;
     border: 1px solid var(--border-color);
-    margin-bottom: 30px;
-}
-
-.assessment-item {
-    margin-bottom: 25px;
-    text-align: left;
-}
-
-.assessment-item label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.assessment-item select {
-    width: 100%;
-    padding: 15px;
-    border-radius: 12px;
-    background: var(--bg-color);
-    color: var(--text-color);
-    border: 2px solid var(--border-color);
-    font-size: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 .selection-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 10px;
     margin-bottom: 30px;
 }
@@ -121,6 +135,17 @@ body {
     color: var(--primary-color);
 }
 
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1.1rem;
+    box-sizing: border-box;
+}
+
 .main-btn {
     width: 100%;
     padding: 20px;
@@ -131,25 +156,17 @@ body {
     font-size: 1.1rem;
     font-weight: 800;
     cursor: pointer;
-    margin-top: 10px;
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
 }
 
-/* Workout Page */
-.mindset-top {
-    background: rgba(129, 140, 248, 0.1);
-    padding: 25px;
-    border-radius: 20px;
-    border-left: 5px solid var(--secondary-color);
-    margin-bottom: 30px;
-    text-align: left;
-}
-
+/* Workout Cards */
 .active-workout-card {
     background: var(--card-bg);
     border-radius: 28px;
     padding: 30px;
     margin-bottom: 25px;
     border: 1px solid var(--border-color);
+    text-align: left;
 }
 
 .routine-item-v2 {
@@ -157,76 +174,45 @@ body {
     padding: 20px;
     border-radius: 18px;
     margin-bottom: 15px;
-    cursor: pointer;
-    text-align: left;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid transparent;
+    transition: 0.2s;
 }
 
-.routine-info { flex: 1; }
-.routine-name { font-size: 1.1rem; font-weight: 800; display: block; margin-bottom: 5px; }
-.routine-desc { font-size: 0.85rem; opacity: 0.7; display: block; margin-bottom: 8px; }
+.routine-item-v2:hover { border-color: var(--primary-color); }
+
 .intensity-tip {
     font-size: 0.85rem;
     color: var(--primary-color);
     background: var(--tip-bg);
     padding: 5px 10px;
     border-radius: 8px;
-    font-weight: 600;
+    margin-top: 10px;
+    display: inline-block;
 }
 
-.routine-meta { font-weight: 700; color: var(--secondary-color); margin-left: 15px; }
-
-/* Mistakes & Nutrition */
-.mistake-section { margin-top: 60px; text-align: left; }
-.mistake-card {
-    background: rgba(251, 113, 133, 0.05);
-    padding: 20px;
-    border-radius: 16px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(251, 113, 133, 0.1);
-}
-
-.protein-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.protein-source-card {
-    background: var(--card-bg);
-    padding: 20px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-}
-
-/* Nutrition Breakdown */
+/* Protein Breakdown Visualization */
 .protein-breakdown {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 20px;
     border: 1px solid var(--border-color);
-    margin-bottom: 30px;
+    margin: 30px auto;
     max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .breakdown-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
+    padding: 10px 0;
 }
 
-.breakdown-item span { font-size: 0.95rem; opacity: 0.8; }
-.breakdown-item strong { font-size: 1.1rem; }
-
-.breakdown-item strong.total { color: var(--primary-color); }
-.breakdown-item strong.meals { color: var(--accent-color); }
-.breakdown-item strong.remaining { color: var(--easy-color); font-size: 1.4rem; }
+.breakdown-item strong.remaining {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
 
 .breakdown-divider {
     height: 1px;
@@ -234,53 +220,50 @@ body {
     margin: 10px 0;
 }
 
-.breakdown-item.result {
-    margin-top: 5px;
-    padding-top: 15px;
-    border-top: 2px solid var(--border-color);
-}
-
-.nutrition-intro {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 30px;
-    opacity: 0.9;
-}
-
-.success-msg {
-    grid-column: 1 / -1;
-    padding: 30px;
-    background: rgba(45, 212, 191, 0.1);
-    border-radius: 20px;
-    color: var(--easy-color);
-    font-weight: 700;
-}
-
-.theme-toggle {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    padding: 12px 20px;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    border-radius: 30px;
-    font-weight: 700;
-    z-index: 1001;
-}
-
-
-.input-group input {
+/* Footer - 하단 중앙 고정 */
+.site-footer {
     width: 100%;
-    padding: 15px;
-    border-radius: 12px;
-    border: 2px solid var(--border-color);
+    padding: 40px 20px;
     background: var(--bg-color);
-    color: var(--text-color);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
     box-sizing: border-box;
 }
 
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.5;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    font-size: 0.85rem;
+}
+
+.footer-tagline {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--primary-color);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 12px 20px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    font-weight: 700;
+    z-index: 1001;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
-    .routine-item-v2 { flex-direction: column; align-items: flex-start; }
-    .routine-meta { margin-left: 0; margin-top: 10px; }
+    .navbar { padding: 10px; overflow-x: auto; justify-content: flex-start; }
+    .routine-item-v2 { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
