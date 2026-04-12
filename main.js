@@ -104,8 +104,9 @@ const progressions = {
     ]
 };
 
+// 부위별 기본 라인업 매핑
 const partMapping = {
-    arms: ["pull", "push"],
+    arms: ["pull", "push"], // 팔은 당기기와 밀기를 모두 포함
     back: ["pull"],
     chest: ["push"],
     upper: ["pull", "push"],
@@ -118,30 +119,57 @@ const goalAdvice = {
     strength: {
         meta: "5세트 x 5회 | 휴식: 3분",
         mindset: "신경계를 깨우세요. '횟수'가 아니라 '부하'에 집중해야 합니다. 한 번을 하더라도 몸이 찢어지는 듯한 텐션을 유지하는 것이 스트렝스의 핵심입니다.",
-        diet: "폭발적 에너지를 위해 현미밥, 바나나 같은 복합 탄수화물을 섭취하고, 근신경 회복을 위해 소고기나 연어 같은 고품질 단백질을 충분히 드세요.",
+        proteinRatio: 1.8, // 체중 1kg당 단백질 g
         mistakes: [
-            { title: "실패 지점 강박", content: "매 세트 실패 지점까지 가면 근신경계가 과부하되어 다음 운동의 효율이 급감합니다. RPE 8-9 수준(1~2회 더 할 수 있을 때 멈춤)이 가장 과학적입니다." },
+            { title: "실패 지점 강박", content: "매 세트 실패 지점까지 가면 근신경계가 과부하되어 다음 운동의 효율이 급감합니다. 1~2회 정도 더 할 수 있을 때 멈추는 RPE 8-9 수준이 가장 과학적입니다." },
             { title: "불충분한 휴식", content: "ATP(에너지원)가 재합성되는 데는 최소 3분이 필요합니다. 조급함에 짧게 쉬면 힘이 아니라 심폐지구력 훈련이 되어버립니다." }
         ]
     },
     hypertrophy: {
         meta: "4세트 x 8~12회 | 휴식: 1.5분",
-        mindset: "근육의 고립과 펌핑을 느끼세요. 타겟 근육이 타들어가는 느낌이 없다면 단순히 관절로만 움직이고 있는 것일 수 있습니다.",
-        diet: "근비대를 위해 닭가슴살, 계란 흰자뿐만 아니라 아보카도, 견과류 같은 양질의 지방을 함께 드세요. 근육 성장을 위한 호르몬 생성에 필수적입니다.",
+        mindset: "근육의 수축과 이완에 집중하세요. 템포를 천천히(내려갈 때 3초) 가져가며 근비대를 유도하는 스트레스를 주어야 합니다.",
+        proteinRatio: 1.6,
         mistakes: [
-            { title: "반동 사용 (Cheating)", content: "반동을 쓰는 순간 근육의 기계적 긴장이 풀립니다. 이는 성장을 방해하고 건과 인대의 부상 위험을 2.5배 높입니다." },
-            { title: "수면 부족", content: "근육은 잘 때 자랍니다. 7시간 미만의 수면은 단백질 합성률을 떨어뜨려 운동 노력을 수포로 만듭니다." }
+            { title: "반동 사용 (Cheating)", content: "반동을 쓰는 순간 타겟 근육의 기계적 긴장(Mechanical Tension)이 풀립니다. 이는 근비대를 방해하고 건과 인대의 부상 위험을 2.5배 높입니다." },
+            { title: "수면 부족", content: "근육은 운동할 때가 아니라 잘 때 자랍니다. 7시간 미만의 수면은 단백질 합성률을 떨어뜨려 운동 노력을 수포로 만듭니다." }
+        ]
+    },
+    endurance: {
+        meta: "3세트 x 15~20회 | 휴식: 45초",
+        mindset: "숨이 차오르고 근육이 타오르는 느낌을 즐기세요. 짧은 휴식 시간 동안 회복하는 능력을 기르는 것이 목표입니다.",
+        proteinRatio: 1.4,
+        mistakes: [
+            { title: "자세 붕괴 무시", content: "횟수만을 위해 무너진 자세로 반복하는 것은 근육이 아니라 관절을 갉아먹는 행위입니다. 자세가 무너지면 해당 세트는 즉시 종료해야 합니다." },
+            { title: "불규칙한 템포", content: "일정한 속도를 유지하지 못하면 근지구력 향상 효율이 떨어집니다. 메트로놈을 켜놓듯 규칙적으로 움직이세요." }
         ]
     }
 };
 
-let currentWorkoutState = []; 
+const proteinSources = [
+    { name: "닭가슴살 (생물)", proteinPer100g: 23, costPerProtein: 45, context: "가장 클래식한 선택. 가성비가 가장 좋지만 조리 시간이 필요합니다.", example: "100g당 약 1,000원" },
+    { name: "계란 (대란)", proteinPer100g: 6, costPerProtein: 50, context: "조리가 간편하고 영양가가 높습니다.", example: "1알(6g)당 약 300원" },
+    { name: "단백질 보충제 (WPC)", proteinPer100g: 20, costPerProtein: 40, context: "바쁜 일상에서 가장 경제적이고 빠른 공급원입니다.", example: "1회 분량당 약 800원" },
+    { name: "두부 (국산)", proteinPer100g: 8, costPerProtein: 80, context: "식물성 단백질. 소화가 잘 되며 값싸게 대량 섭취 가능합니다.", example: "300g 한 모당 약 2,000원" }
+];
+
+let selectedPart = null;
+let selectedGoal = null;
+let currentWorkoutState = [];
 
 function setupSelection() {
-    document.querySelectorAll('.select-item').forEach(btn => {
+    document.querySelectorAll('#part-selection .select-item').forEach(btn => {
         btn.addEventListener('click', function() {
             this.parentElement.querySelectorAll('.select-item').forEach(b => b.classList.remove('selected'));
             this.classList.add('selected');
+            selectedPart = this.dataset.value;
+        });
+    });
+
+    document.querySelectorAll('#goal-selection .select-item').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.querySelectorAll('.select-item').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedGoal = this.dataset.value;
         });
     });
 }
@@ -155,25 +183,27 @@ function showPage(pageId) {
 }
 
 function generateWorkout() {
-    const partBtn = document.querySelector('#part-selection .selected');
-    const goalBtn = document.querySelector('#goal-selection .selected');
-
-    if (!partBtn || !goalBtn) {
-        alert("부위와 목적을 선택해주세요!");
+    const weight = document.getElementById('user-weight').value;
+    if (!selectedPart || !selectedGoal) {
+        alert("부위와 목적을 모두 선택해주세요!");
+        return;
+    }
+    if (!weight || weight < 30) {
+        alert("올바른 체중을 입력해주세요!");
         return;
     }
 
-    const part = partBtn.dataset.value;
-    const goal = goalBtn.dataset.value;
-    const patterns = partMapping[part];
-    const advice = goalAdvice[goal] || goalAdvice.hypertrophy;
+    const patterns = partMapping[selectedPart];
+    const advice = goalAdvice[selectedGoal];
 
+    // 초기 상태 설정
     currentWorkoutState = patterns.map(p => ({
         pattern: p,
-        levelIndex: 1 // 기본은 초급 레벨에서 시작
+        levelIndex: 1
     }));
 
     renderWorkout(advice);
+    renderNutrition(weight, advice);
     showPage('workout-page');
 }
 
@@ -181,7 +211,7 @@ function renderWorkout(advice) {
     const container = document.getElementById("workout-result");
     container.innerHTML = `
         <div class="mindset-top">
-            <h4>🧠 TODAY'S MINDSET</h4>
+            <h4>🧠 WORKOUT MINDSET</h4>
             <p>"${advice.mindset}"</p>
         </div>
     `;
@@ -228,17 +258,36 @@ function renderWorkout(advice) {
         `;
     });
     container.appendChild(mistakeSection);
+}
 
+function renderNutrition(weight, advice) {
+    const totalProtein = (weight * advice.proteinRatio).toFixed(1);
     const guideDiv = document.getElementById("guide-content");
+    
+    let proteinHTML = proteinSources.map(s => `
+        <div class="protein-source-card">
+            <h5>${s.name}</h5>
+            <p>${s.context}</p>
+            <ul>
+                <li>필요량: 하루 약 ${(totalProtein / (s.proteinPer100g / 100)).toFixed(0)}g (또는 단위)</li>
+                <li><strong>예상 비용: 약 ${(totalProtein * s.costPerProtein).toLocaleString()}원 / 일</strong></li>
+                <li>단가: ${s.example}</li>
+            </ul>
+        </div>
+    `).join('');
+
     guideDiv.innerHTML = `
         <div class="guide-section">
-            <h4>🥗 추천 영양 가이드</h4>
-            <p>${advice.diet}</p>
-            <div class="food-examples">
-                <strong>추천 식품 예시:</strong><br>
-                ✅ <strong>단백질:</strong> 수비드 닭가슴살, 삶은 달걀, 틸라피아, 그릭 요거트<br>
-                ✅ <strong>탄수화물:</strong> 고구마, 퀴노아, 통밀빵, 오트밀, 바나나<br>
-                ✅ <strong>지방:</strong> 구운 아몬드, 엑스트라 버진 올리브유, 아보카도
+            <h4>📊 당신의 일일 단백질 목표</h4>
+            <p>체중 <strong>${weight}kg</strong> 기준, <strong>${selectedGoal}</strong> 목적을 위해 하루 <strong>${totalProtein}g</strong>의 단백질 섭취가 필요합니다.</p>
+            
+            <h4>💰 상황별 단백질 추천 및 가성비 분석</h4>
+            <div class="protein-grid">
+                ${proteinHTML}
+            </div>
+            
+            <div class="nutrition-tip">
+                <p>💡 <strong>Tip:</strong> 시간이 없다면 '보충제'가 가장 저렴하고 빠릅니다. 하지만 건강을 위해 하루 최소 한 끼는 '닭가슴살'이나 '두부' 같은 자연식에서 단백질을 섭취하세요.</p>
             </div>
         </div>
     `;
@@ -250,11 +299,10 @@ function changeDifficulty(stateIndex, direction) {
 
     if (newIndex >= 0 && newIndex < progressions[state.pattern].length) {
         state.levelIndex = newIndex;
-        const goalBtn = document.querySelector('#goal-selection .selected');
-        const advice = goalAdvice[goalBtn.dataset.value] || goalAdvice.hypertrophy;
-        renderWorkout(advice);
+        const goal = selectedGoal;
+        renderWorkout(goalAdvice[goal]);
     } else {
-        alert(direction > 0 ? "최고 레벨에 도달했습니다!" : "가장 낮은 레벨입니다!");
+        alert(direction > 0 ? "최고 레벨입니다!" : "최저 레벨입니다!");
     }
 }
 

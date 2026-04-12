@@ -47,10 +47,19 @@
                 <div class="selection-grid" id="goal-selection">
                     <button class="select-item" data-value="strength">스트렝스</button>
                     <button class="select-item" data-value="hypertrophy">근비대</button>
+                    <button class="select-item" data-value="endurance">근지구력</button>
                 </div>
             </div>
 
-            <button class="main-btn" onclick="generateWorkout()">🔥 루틴 생성하기</button>
+            <div class="setup-group">
+                <h3>3. 신체 정보 (영양 가이드용)</h3>
+                <div class="input-group">
+                    <label for="user-weight">현재 체중 (kg):</label>
+                    <input type="number" id="user-weight" placeholder="ex) 75" min="30" max="200">
+                </div>
+            </div>
+
+            <button class="main-btn" onclick="generateWorkout()">🔥 루틴 및 식단 생성</button>
         </div>
     </div>
 
