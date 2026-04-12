@@ -3,30 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>오늘의 운세</title>
+    <title>🔮 정교한 오늘의 운세 | 당신의 하루를 응원합니다</title>
+    <!-- 구글 애드센스 설정 -->
+    <meta name="google-adsense-account" content="ca-pub-5784800605906401">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5784800605906401" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <!-- 검색 엔진 최적화(SEO) -->
+    <meta name="description" content="매일매일 달라지는 정교한 알고리즘 기반의 오늘의 운세를 확인하세요. 성공적인 하루를 위한 맞춤 조언과 행운의 팁을 제공합니다.">
+    <meta name="keywords" content="오늘의운세, 무료운세, 운세기록, 운세보기, 행운의팁, 개인운세">
 </head>
 <body>
 
 <button class="theme-toggle" onclick="toggleTheme()">🌙 다크모드</button>
 
 <nav class="navbar">
-    <button class="nav-btn active" onclick="showPage('fortune-page')">🔮 운세 보기</button>
+    <button class="nav-btn active" onclick="showPage('fortune-page')">🔮 오늘의 운세</button>
+    <button class="nav-btn" onclick="showPage('guide-page')">📚 운세 가이드</button>
     <button class="nav-btn" onclick="showPage('contact-page')">🤝 제휴 문의</button>
-    <button class="nav-btn" onclick="showPage('comments-page')">💬 댓글 남기기</button>
+    <button class="nav-btn" onclick="showPage('comments-page')">💬 사용자 소통</button>
+    <button class="nav-btn" onclick="showPage('privacy-page')">⚖️ 정책 안내</button>
 </nav>
 
 <div class="container">
-    <!-- 1페이지: 운세 보기 -->
+    <!-- 1페이지: 오늘의 운세 -->
     <div id="fortune-page" class="page active">
-        <h1>🔮 오늘의 운세</h1>
+        <h1>🔮 정교한 오늘의 운세</h1>
+        <p class="intro-text">내면의 에너지를 집중하고 아래 버튼을 눌러 당신의 운명을 확인해보세요.</p>
+        
         <div class="main-content">
             <div class="fortune-section">
-                <button class="main-btn" onclick="showFortune()">운세 보기</button>
+                <button class="main-btn" onclick="showFortune()">✨ 내 운세 보기</button>
                 <div id="fortune"></div>
+                <div id="fortune-detail" class="fortune-detail"></div>
             </div>
+            
             <div class="history-section">
-                <div class="title">📜 이전 운세 기록</div>
+                <div class="title">📜 나의 지난 운세 기록</div>
                 <div id="history"></div>
                 <div class="pagination">
                     <button id="prev-btn" onclick="changePage(-1)" disabled>이전</button>
@@ -37,33 +49,52 @@
         </div>
     </div>
 
-    <!-- 2페이지: 제휴 문의 -->
+    <!-- 2페이지: 운세 가이드 (질적 콘텐츠 추가) -->
+    <div id="guide-page" class="page">
+        <h2>📚 운세를 더 유익하게 활용하는 법</h2>
+        <div class="guide-content">
+            <article>
+                <h3>1. 운세는 '방향'을 제안합니다</h3>
+                <p>오늘의 운세는 절대적인 미래를 예언하기보다는, 당신의 마음가짐이나 오늘 하루의 태도에 대한 긍정적인 방향을 제시합니다. 좋은 내용이 나왔다면 자신감을 가지고, 주의가 필요한 내용이 나왔다면 조금 더 신중한 하루를 보내는 지혜로 활용하세요.</p>
+            </article>
+            <article>
+                <h3>2. 아침에 확인하는 것의 장점</h3>
+                <p>하루를 시작하기 전 짧은 명상과 함께 운세를 확인해보세요. 무의식중에 긍정적인 암시를 받아들여 예상치 못한 행운을 발견할 확률이 높아집니다. '자기 충족적 예언'의 힘을 믿어보세요.</p>
+            </article>
+            <article>
+                <h3>3. 기록의 중요성</h3>
+                <p>우리는 매일 운세를 확인하지만 금방 잊어버리곤 합니다. 본 서비스의 '이전 기록' 기능을 통해 과거의 조언이 실제로 하루에 어떤 영향을 미쳤는지 되돌아보세요. 반복되는 패턴 속에서 당신만의 행운 공식을 찾을 수 있습니다.</p>
+            </article>
+        </div>
+    </div>
+
+    <!-- 3페이지: 제휴 문의 -->
     <div id="contact-page" class="page">
         <div class="contact-section">
-            <h2>🤝 제휴 문의</h2>
-            <p>비즈니스 제휴 및 기타 문의사항을 남겨주세요.</p>
+            <h2>🤝 비즈니스 제휴 문의</h2>
+            <p>데이터 제휴, 광고 게재, 맞춤형 운세 솔루션 도입 등 협업이 필요하시다면 언제든 연락주세요.</p>
             <form action="https://formspree.io/f/xojyaqgq" method="POST" class="contact-form">
                 <div class="form-group">
-                    <label for="name">성함/기업명</label>
+                    <label for="name">성함 또는 기업명</label>
                     <input type="text" id="name" name="name" placeholder="홍길동" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">이메일 주소</label>
+                    <label for="email">연락 받으실 이메일</label>
                     <input type="email" id="email" name="_replyto" placeholder="example@email.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="message">문의 내용</label>
-                    <textarea id="message" name="message" rows="8" placeholder="제휴 제안 내용을 입력해주세요." required></textarea>
+                    <label for="message">문의 상세 내용</label>
+                    <textarea id="message" name="message" rows="8" placeholder="제휴하고 싶은 사업 내용이나 제안 사항을 상세히 남겨주시면 검토 후 회신드리겠습니다." required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">문의 보내기</button>
+                <button type="submit" class="submit-btn">제휴 제안 보내기</button>
             </form>
         </div>
     </div>
 
-    <!-- 3페이지: 댓글 -->
+    <!-- 4페이지: 사용자 소통 (댓글) -->
     <div id="comments-page" class="page">
-        <h2>💬 사용자 의견</h2>
-        <p>오늘의 운세에 대한 소감을 남겨주세요!</p>
+        <h2>💬 사용자 피드백</h2>
+        <p>오늘 하루는 어떠셨나요? 여러분의 행운이 가득한 소식을 공유해주세요.</p>
         <div id="disqus_thread" class="comments-section"></div>
         <script>
             var disqus_config = function () {
@@ -77,7 +108,25 @@
                 (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    <!-- 5페이지: 개인정보처리방침 (애드센스 필수) -->
+    <div id="privacy-page" class="page">
+        <h2>⚖️ 개인정보처리방침 및 정책 안내</h2>
+        <div class="policy-content">
+            <p><strong>1. 수집하는 정보의 항목</strong><br>
+            본 웹사이트는 사용자의 별도 가입 절차 없이 운세를 확인하는 도구입니다. 다만, 서비스 분석 및 광고 게재를 위해 다음과 같은 정보가 자동으로 생성되어 수집될 수 있습니다.<br>
+            - IP 주소, 쿠키, 방문 일시, 서비스 이용 기록</p>
+
+            <p><strong>2. 구글 애드센스 사용</strong><br>
+            본 서비스는 Google Inc.에서 제공하는 웹 분석 서비스 및 광고 게재 시스템인 Google AdSense를 사용합니다. Google은 사용자의 브라우저에 쿠키를 저장하여 사용자에게 적절한 광고를 제공할 수 있습니다. 사용자는 브라우저 설정을 통해 쿠키 수집을 거부할 수 있습니다.</p>
+
+            <p><strong>3. 데이터 보안</strong><br>
+            운세 기록은 브라우저의 로컬 스토리지에 저장되어 개인적인 용도로만 사용되며, 서버로 전송되어 저장되지 않습니다.</p>
+
+            <p><strong>4. 연락처</strong><br>
+            개인정보와 관련한 문의사항은 '제휴 문의' 탭을 통해 연락해주시기 바랍니다.</p>
+        </div>
     </div>
 </div>
 
