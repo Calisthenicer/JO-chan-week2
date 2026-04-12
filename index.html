@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💪 CALI-ROUTINE | 과학적 맨몸운동 설계</title>
+    <title>💪 CALI-ROUTINE | 과학적 맨몸운동 프로그레션 가이드</title>
     
     <!-- 구글 애드센스 설정 -->
     <meta name="google-adsense-account" content="ca-pub-5784800605906401">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5784800605906401" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="style.css">
+    
+    <!-- SEO 및 소셜 공유 설정 -->
+    <meta name="description" content="전문적인 맨몸운동 루틴 설계 서비스. 수준 진단을 통한 맞춤 프로그레션, 과학적 영양 전략, 그리고 올바른 훈련 마음가짐을 제공합니다.">
+    <meta name="keywords" content="맨몸운동, 캘리스데닉스, 운동루틴, 풀업, 푸쉬업, 단백질계산, 홈트레이닝">
+    <meta property="og:title" content="💪 CALI-ROUTINE | 전문 맨몸운동 가이드">
+    <meta property="og:description" content="나에게 딱 맞는 맨몸운동 루틴과 식단 경제성 분석을 확인하세요.">
+    <meta property="og:type" content="website">
 </head>
 <body>
 
@@ -19,67 +26,67 @@
     <button class="nav-btn active" id="nav-setup" onclick="showPage('setup-page')">🎯 루틴 설정</button>
     <button class="nav-btn" id="nav-assessment" onclick="showPage('assessment-page')" disabled>📝 수준 진단</button>
     <button class="nav-btn" id="nav-workout" onclick="showPage('workout-page')" disabled>🏋️ 오늘의 운동</button>
-    <button class="nav-btn" id="nav-guide" onclick="showPage('guide-page')">🥗 영양 전략</button>
-    <button class="nav-btn" id="nav-privacy" onclick="showPage('privacy-page')">⚖️ 정책 안내</button>
+    <button class="nav-btn" id="nav-guide" onclick="showPage('guide-page')">🥗 영양 & 정보</button>
+    <button class="nav-btn" id="nav-privacy" onclick="showPage('privacy-page')">⚖️ 정책 & 소개</button>
 </nav>
 
 <div class="container">
-    <!-- 1페이지: 루틴 기본 설정 -->
+    <!-- 1페이지: 루틴 설정 -->
     <div id="setup-page" class="page active">
         <h1>🏋️ CALI-ROUTINE</h1>
-        <p class="intro-text">당신의 목표에 맞는 맨몸운동 루틴을 설계합니다.</p>
+        <p class="intro-text">과학적인 프로그레션 기반의 맨몸운동 루틴을 생성합니다. 철봉 하나면 충분합니다.</p>
         
         <div class="setup-container">
             <div class="setup-group">
-                <h3>1. 오늘 집중할 부위</h3>
+                <h3>1. 오늘 집중할 부위 선택</h3>
                 <div class="selection-grid" id="part-selection">
                     <button class="select-item" data-value="arms">팔 (이두/삼두)</button>
-                    <button class="select-item" data-value="back">등</button>
-                    <button class="select-item" data-value="chest">가슴</button>
+                    <button class="select-item" data-value="back">등 (광배근)</button>
+                    <button class="select-item" data-value="chest">가슴 (대흉근)</button>
                     <button class="select-item" data-value="upper">상체 전체</button>
-                    <button class="select-item" data-value="lower">하체</button>
+                    <button class="select-item" data-value="lower">하체 전체</button>
                     <button class="select-item" data-value="push">밀기 위주</button>
                     <button class="select-item" data-value="pull">당기기 위주</button>
                 </div>
             </div>
 
             <div class="setup-group">
-                <h3>2. 운동 목적</h3>
+                <h3>2. 운동 목적 설정</h3>
                 <div class="selection-grid" id="goal-selection">
-                    <button class="select-item" data-value="strength">스트렝스</button>
-                    <button class="select-item" data-value="hypertrophy">근비대</button>
-                    <button class="select-item" data-value="endurance">근지구력</button>
+                    <button class="select-item" data-value="strength">스트렝스 (근력)</button>
+                    <button class="select-item" data-value="hypertrophy">근비대 (몸 만들기)</button>
+                    <button class="select-item" data-value="endurance">근지구력 (체력)</button>
                 </div>
             </div>
 
             <div class="setup-group">
-                <h3>3. 신체 정보</h3>
+                <h3>3. 개인 신체 정보</h3>
                 <div class="input-group">
-                    <label for="user-weight">현재 체중 (kg):</label>
-                    <input type="number" id="user-weight" placeholder="ex) 75" min="30" max="200">
+                    <label for="user-weight">현재 체중 (kg)</label>
+                    <input type="number" id="user-weight" placeholder="예: 75" min="30" max="200">
                 </div>
             </div>
 
-            <button class="main-btn" onclick="startAssessment()">다음 단계로 (수준 진단) ➔</button>
+            <button class="main-btn" onclick="startAssessment()">다음 단계: 수준 진단 ➔</button>
         </div>
     </div>
 
-    <!-- 2페이지: 수준 진단 체크리스트 -->
+    <!-- 2페이지: 수준 진단 -->
     <div id="assessment-page" class="page">
         <h2>📝 현재 수행 능력 진단</h2>
-        <p class="intro-text">정확한 레벨 측정을 위해 현재 가능한 최대 개수를 선택해주세요.</p>
+        <p class="intro-text">정확한 레벨 측정을 위해 현재 가능한 최대 정석 개수를 선택하세요.</p>
         <div class="setup-container assessment-box">
             <div class="assessment-item">
-                <label>정석 푸쉬업은 몇 개 가능한가요?</label>
+                <label>정석 푸쉬업 (바닥에 가슴이 닿을 정도)</label>
                 <select id="eval-push">
-                    <option value="0">1개 미만 (무릎 대고 가능)</option>
+                    <option value="0">1개 미만 (무릎 대고 수행 가능)</option>
                     <option value="1">1~10개</option>
                     <option value="2">11~25개</option>
                     <option value="3">25개 이상</option>
                 </select>
             </div>
             <div class="assessment-item">
-                <label>정석 풀업(턱걸이)은 몇 개 가능한가요?</label>
+                <label>정석 풀업 (턱이 바 위로 올라갈 정도)</label>
                 <select id="eval-pull">
                     <option value="0">매달리기만 가능</option>
                     <option value="1">1~3개 (네거티브 포함)</option>
@@ -88,7 +95,7 @@
                 </select>
             </div>
             <div class="assessment-item">
-                <label>정석 스쿼트는 몇 개 가능한가요?</label>
+                <label>정석 스쿼트 (허벅지가 지면과 평행)</label>
                 <select id="eval-squat">
                     <option value="0">10개 미만</option>
                     <option value="1">10~25개</option>
@@ -100,23 +107,53 @@
         </div>
     </div>
 
-    <!-- 3페이지: 운동 루틴 -->
+    <!-- 3페이지: 루틴 결과 -->
     <div id="workout-page" class="page">
         <div id="workout-result"></div>
     </div>
 
-    <!-- 4페이지: 영양 전략 -->
+    <!-- 4페이지: 영양 및 정보 (질적 콘텐츠 대폭 보강) -->
     <div id="guide-page" class="page">
-        <h2>🥗 맞춤 식단 가이드</h2>
-        <div id="guide-content" class="guide-container"></div>
+        <h2>📚 전문 트레이닝 정보 & 영양 전략</h2>
+        <div id="guide-content" class="guide-container">
+            <!-- JS에서 식단 데이터 삽입 -->
+        </div>
+        
+        <div class="static-content">
+            <article class="info-article">
+                <h3>📌 맨몸운동의 핵심: 프로그레션(Progression)이란?</h3>
+                <p>웨이트 트레이닝이 무게를 올리는 것이라면, 맨몸운동은 '몸의 각도'와 '지렛대 원리'를 조절하여 난이도를 높입니다. 무작정 개수만 채우는 것보다 더 힘든 변형 동작으로 넘어가는 것이 근성장의 핵심입니다.</p>
+            </article>
+            <article class="info-article">
+                <h3>📌 RPE(운동 자각도) 활용법</h3>
+                <p>매 세트 완전히 탈진할 때까지(실패 지점) 훈련하면 근신경계 피로가 심해져 부상 위험이 높습니다. 본 서비스는 RPE 8-9 수준(1~2개 더 할 수 있을 때 멈춤)을 권장합니다.</p>
+            </article>
+            <article class="info-article">
+                <h3>📌 왜 철봉인가요?</h3>
+                <p>풀업(턱걸이)은 상체 근육의 70% 이상을 사용하는 최고의 다관절 운동입니다. 본 루틴은 철봉 하나로 등, 어깨, 팔, 가슴, 코어를 모두 발달시킬 수 있도록 설계되었습니다.</p>
+            </article>
+        </div>
     </div>
 
-    <!-- 5페이지: 정책 안내 -->
+    <!-- 5페이지: 정책 및 소개 -->
     <div id="privacy-page" class="page">
-        <h2>⚖️ 법적 고지 및 정책</h2>
-        <div class="policy-content" style="background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: left;">
-            <p><strong>개인정보 처리:</strong> 본 사이트는 별도의 개인정보를 서버에 저장하지 않으며, 구글 애드센스 광고 최적화를 위한 쿠키만을 사용합니다.</p>
-            <p><strong>면책 조항:</strong> 제공되는 모든 운동 정보는 교육적 목적이며, 실제 수행 전 전문가의 상담을 권장합니다. 과도한 운동으로 인한 부상의 책임은 본인에게 있습니다.</p>
+        <h2>⚖️ 서비스 소개 및 법적 고지</h2>
+        <div class="setup-container policy-box" style="text-align: left;">
+            <section>
+                <h3>✨ CALI-ROUTINE 서비스 소개</h3>
+                <p>본 서비스는 맨몸운동(Calisthenics)을 시작하고 싶지만 갈피를 잡지 못하는 초보자부터, 더 높은 난이도를 원하는 숙련자까지 모두를 위한 과학적 훈련 가이드입니다. 긍정 확언과 신체 진단을 통해 최상의 운동 효율을 추구합니다.</p>
+            </section>
+            <hr class="divider">
+            <section>
+                <h3>📜 개인정보처리방침 (Privacy Policy)</h3>
+                <p>1. 사용자가 입력한 체중 및 운동 수행 능력 데이터는 브라우저의 로컬 메모리에만 일시적으로 사용되며 서버로 전송되거나 수집되지 않습니다.</p>
+                <p>2. 구글 애드센스 광고 게재를 위해 쿠키를 사용할 수 있으며, 이는 사용자의 편의와 맞춤형 광고 제공을 위함입니다.</p>
+            </section>
+            <hr class="divider">
+            <section>
+                <h3>📧 문의하기 (Contact)</h3>
+                <p>제휴 제안이나 오류 제보 등은 언제든 환영합니다.<br>이메일: contact@caliroutine.example.com</p>
+            </section>
         </div>
     </div>
 </div>
