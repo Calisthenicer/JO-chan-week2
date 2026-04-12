@@ -1,35 +1,38 @@
 :root {
     --bg-gradient: linear-gradient(135deg, #74ebd5, #ACB6E5);
     --text-color: #333;
-    --button-bg: #ff7eb3;
-    --button-hover: #ff4f91;
+    --button-bg: #6c5ce7;
+    --button-hover: #5649c0;
     --item-bg: white;
-    --item-shadow: rgba(0, 0, 0, 0.1);
-    --border-color: #ddd;
-    --nav-bg: rgba(255, 255, 255, 0.2);
+    --item-shadow: rgba(0, 0, 0, 0.08);
+    --border-color: #eee;
+    --nav-bg: rgba(255, 255, 255, 0.25);
     --accent-color: #6c5ce7;
+    --footer-bg: #333;
 }
 
 [data-theme="dark"] {
-    --bg-gradient: linear-gradient(135deg, #2c3e50, #000000);
-    --text-color: #f1f1f1;
+    --bg-gradient: linear-gradient(135deg, #1a1a2e, #16213e);
+    --text-color: #e0e0e0;
     --button-bg: #6c5ce7;
     --button-hover: #a29bfe;
-    --item-bg: #333;
-    --item-shadow: rgba(255, 255, 255, 0.1);
-    --border-color: #444;
-    --nav-bg: rgba(0, 0, 0, 0.3);
+    --item-bg: #1f1f2e;
+    --item-shadow: rgba(0, 0, 0, 0.3);
+    --border-color: #2d2d3f;
+    --nav-bg: rgba(0, 0, 0, 0.4);
+    --footer-bg: #0f0f1a;
 }
 
 body {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg-gradient);
     color: var(--text-color);
     margin: 0;
     padding: 0;
     transition: background 0.3s, color 0.3s;
     min-height: 100vh;
-    line-height: 1.6;
+    line-height: 1.7;
+    word-break: keep-all;
 }
 
 /* 네비게이션 바 */
@@ -39,216 +42,180 @@ body {
     display: flex;
     justify-content: center;
     gap: 5px;
-    padding: 10px;
+    padding: 12px;
     background: var(--nav-bg);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    flex-wrap: wrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .nav-btn {
-    padding: 8px 15px;
+    padding: 8px 16px;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 600;
     background: transparent;
     color: var(--text-color);
     border: none;
     cursor: pointer;
+    border-radius: 10px;
     transition: all 0.2s;
 }
 
 .nav-btn.active {
     background: var(--button-bg);
     color: white;
-    border-radius: 8px;
 }
 
-/* 페이지 관리 */
-.page {
-    display: none;
-    animation: fadeIn 0.4s ease-out;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.page.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+.nav-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .container {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 40px 20px 80px;
     text-align: center;
 }
 
-h1 { font-size: 2.5rem; margin-bottom: 10px; }
-h2 { font-size: 2rem; margin-bottom: 20px; }
-h3 { font-size: 1.3rem; color: var(--accent-color); margin-bottom: 10px; }
+h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
+h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 25px; }
 
-.intro-text {
-    font-size: 1.1rem;
-    opacity: 0.8;
-    margin-bottom: 40px;
+.intro-text { font-size: 1.1rem; opacity: 0.7; margin-bottom: 40px; }
+
+/* 페이지 전환 애니메이션 */
+.page {
+    display: none;
+    animation: slideUp 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.page.active { display: block; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .main-content {
     display: flex;
     justify-content: space-between;
     gap: 30px;
-    align-items: flex-start;
-    text-align: left;
+    margin-bottom: 40px;
 }
 
-/* 운세 섹션 */
+/* 운세 확인 섹션 */
 .fortune-section {
-    flex: 1.2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1.3;
+    background: var(--item-bg);
+    padding: 40px 30px;
+    border-radius: 28px;
+    box-shadow: 0 10px 30px var(--item-shadow);
+    border: 1px solid var(--border-color);
 }
 
 .main-btn {
-    padding: 18px 36px;
+    padding: 18px 40px;
     font-size: 1.2rem;
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
 }
 
+/* 로딩 애니메이션 */
+.loading-container {
+    margin: 30px 0;
+}
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(108, 92, 231, 0.1);
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 결과 영역 */
 #fortune {
-    margin-top: 30px;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 800;
-    text-align: center;
-    word-break: keep-all;
     color: var(--accent-color);
+    margin-top: 20px;
 }
-
 .fortune-detail {
-    margin-top: 15px;
-    font-size: 1rem;
+    margin: 20px 0;
+    font-size: 1.05rem;
     opacity: 0.9;
-    text-align: center;
 }
 
-/* 가이드 & 정책 콘텐츠 */
-.guide-content, .policy-content {
-    text-align: left;
-    background: var(--item-bg);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px var(--item-shadow);
+.lucky-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+}
+.lucky-items .item {
+    padding: 15px;
+    background: rgba(108, 92, 231, 0.05);
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
-.guide-content article {
-    margin-bottom: 30px;
-}
-
-.guide-content p, .policy-content p {
-    margin-bottom: 15px;
-}
-
-/* 운세 기록 섹션 */
+/* 히스토리 섹션 */
 .history-section {
     flex: 1;
     background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: 20px;
-    min-height: 400px;
-}
-
-.title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
+    padding: 25px;
+    border-radius: 24px;
+    text-align: left;
 }
 
 .history-item {
     background: var(--item-bg);
-    margin-bottom: 10px;
     padding: 12px 15px;
     border-radius: 12px;
-    box-shadow: 0 2px 5px var(--item-shadow);
-    font-size: 0.95rem;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px var(--item-shadow);
 }
 
-/* 공통 버튼 */
-button {
-    border: none;
-    border-radius: 12px;
-    background-color: var(--button-bg);
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.disclaimer {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin-top: 40px;
 }
 
-button:hover:not(:disabled) {
-    background-color: var(--button-hover);
-    transform: translateY(-3px);
-}
-
+/* 테마 토글 */
 .theme-toggle {
     position: fixed;
-    top: 70px;
+    top: 75px;
     right: 20px;
-    padding: 10px 15px;
-    z-index: 100;
+    z-index: 999;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
+/* 푸터 */
+.site-footer {
+    background: var(--footer-bg);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
     font-size: 0.9rem;
 }
-
-/* 제휴 문의 */
-.contact-section {
-    padding: 30px;
-    background: var(--item-bg);
-    border-radius: 24px;
-    text-align: left;
+.footer-links {
+    margin-top: 15px;
+    opacity: 0.7;
 }
-
-.contact-form .form-group {
-    margin-bottom: 15px;
-}
-
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    background: var(--item-bg);
-    color: var(--text-color);
-}
-
-/* 댓글 */
-.comments-section {
-    background: var(--item-bg);
-    padding: 20px;
-    border-radius: 24px;
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
 }
 
 @media (max-width: 768px) {
-    .main-content {
-        flex-direction: column;
-    }
-    .navbar {
-        padding: 5px;
-    }
-    .nav-btn {
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-    .theme-toggle {
-        top: auto;
-        bottom: 20px;
-    }
+    .main-content { flex-direction: column; }
+    .lucky-items { grid-template-columns: 1fr; }
+    .navbar { padding: 8px; overflow-x: auto; justify-content: flex-start; }
+    .nav-btn { white-space: nowrap; }
+    .theme-toggle { top: auto; bottom: 20px; right: 20px; }
 }
