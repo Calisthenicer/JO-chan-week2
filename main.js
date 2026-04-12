@@ -246,24 +246,57 @@ function renderWorkout(advice) {
 }
 
 function renderNutrition(weight, advice) {
-    const totalProtein = (weight * advice.proteinRatio).toFixed(1);
+    const totalGoal = (weight * advice.proteinRatio).toFixed(1);
+    const proteinFromMeals = 60; // 일반적인 삼시세끼를 통해 섭취하는 평균 단백질량 (기본값 60g)
+    const remainingProtein = Math.max(0, (totalGoal - proteinFromMeals)).toFixed(1);
+    
     const guideDiv = document.getElementById("guide-content");
     
-    let proteinHTML = proteinSources.map(s => `
-        <div class="protein-source-card">
-            <h5>${s.name}</h5>
-            <p>${s.context}</p>
-            <ul>
-                <li>필요량: 하루 약 ${(totalProtein / (s.proteinPer100g / 100)).toFixed(0)}g</li>
-                <li><strong>예상 비용: 약 ${(totalProtein * s.costPerProtein).toLocaleString()}원</strong></li>
-            </ul>
-        </div>
-    `).join('');
+    let proteinHTML = "";
+    if (remainingProtein > 0) {
+        proteinHTML = proteinSources.map(s => `
+            <div class="protein-source-card">
+                <h5>${s.name} (추가 섭취 시)</h5>
+                <p>${s.context}</p>
+                <ul>
+                    <li>필요 보충량: <strong>하루 약 ${(remainingProtein / (s.proteinPer100g / 100)).toFixed(0)}g</strong> (또는 단위)</li>
+                    <li>추가 예상 비용: <strong>약 ${(remainingProtein * s.costPerProtein).toLocaleString()}원 / 일</strong></li>
+                </ul>
+            </div>
+        `).join('');
+    }
 
     guideDiv.innerHTML = `
         <div class="guide-section">
-            <h4>📊 당신의 일일 단백질 목표: ${totalProtein}g</h4>
-            <div class="protein-grid">${proteinHTML}</div>
+            <h4>📊 단백질 섭취 분석 (삼시세끼 제외)</h4>
+            <div class="protein-breakdown">
+                <div class="breakdown-item">
+                    <span>전체 일일 목표</span>
+                    <strong class="total">${totalGoal}g</strong>
+                </div>
+                <div class="breakdown-item">
+                    <span>일반 식사(3끼) 충족량</span>
+                    <strong class="meals">- ${proteinFromMeals}g</strong>
+                </div>
+                <div class="breakdown-divider"></div>
+                <div class="breakdown-item result">
+                    <span>추가 보충 필요량</span>
+                    <strong class="remaining">${remainingProtein}g</strong>
+                </div>
+            </div>
+
+            <p class="nutrition-intro">
+                일반적인 식사를 통해 하루 약 60g의 단백질은 이미 섭취하고 계실 가능성이 높습니다. 
+                목표하신 <strong>${selectedGoal}</strong>을(를) 위해 남은 <strong>${remainingProtein}g</strong>을 아래 방법 중 하나로 보충해 보세요.
+            </p>
+            
+            <div class="protein-grid">
+                ${remainingProtein > 0 ? proteinHTML : '<p class="success-msg">🎉 현재 체중에서는 삼시세끼만 잘 챙겨 드셔도 충분한 단백질이 공급됩니다!</p>'}
+            </div>
+
+            <div class="nutrition-tip">
+                <p>💡 <strong>가성비 조합 추천:</strong> 아침/점심 사이 <strong>계란 2알</strong>, 운동 후 <strong>보충제 1스쿱</strong>이면 가장 경제적으로 남은 목표량을 채울 수 있습니다.</p>
+            </div>
         </div>
     `;
 }
