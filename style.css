@@ -264,9 +264,10 @@ button:hover:not(:disabled) {
 /* 댓글 섹션 */
 .comments-section {
     padding: 20px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--item-bg);
     border-radius: 20px;
     min-height: 400px;
+    color: var(--text-color);
 }
 
 @media (max-width: 768px) {

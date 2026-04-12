@@ -26,7 +26,7 @@ function showPage(pageId) {
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    // 클릭한 버튼 활성화 (이벤트 타겟을 찾기 위해 처리)
+    // 클릭한 버튼 활성화
     const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => 
         btn.getAttribute('onclick').includes(pageId)
     );
@@ -36,20 +36,29 @@ function showPage(pageId) {
     window.scrollTo(0, 0);
 }
 
+// Disqus 리셋 함수 (다크모드 대응)
+function resetDisqus() {
+    if (typeof DISQUS !== 'undefined') {
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                this.page.identifier = 'jochan-fortune-main';
+                this.page.url = window.location.href;
+            }
+        });
+    }
+}
+
 function showFortune() {
     const randomIndex = Math.floor(Math.random() * fortunes.length);
     const newFortune = fortunes[randomIndex];
     const fortuneDisplay = document.getElementById("fortune");
 
-    // 이전 운세를 기록에 추가
     if (fortuneDisplay.innerText !== "") {
         historyList.unshift(fortuneDisplay.innerText);
     }
 
-    // 현재 운세 표시
     fortuneDisplay.innerText = newFortune;
-
-    // 새로운 운세를 볼 때마다 1페이지로 이동하여 최신 기록 확인
     currentPage = 1;
     renderHistory();
 }
@@ -60,13 +69,10 @@ function renderHistory() {
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
     
-    if (!historyDiv) return; // 페이지가 아닐 때 오류 방지
+    if (!historyDiv) return;
 
     historyDiv.innerHTML = "";
-
     const totalPages = Math.max(1, Math.ceil(historyList.length / itemsPerPage));
-    
-    // 현재 페이지에 해당하는 데이터 슬라이스
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const paginatedItems = historyList.slice(start, end);
@@ -83,7 +89,6 @@ function renderHistory() {
         });
     }
 
-    // 페이징 정보 업데이트
     if (pageInfo) pageInfo.innerText = `${currentPage} / ${totalPages}`;
     if (prevBtn) prevBtn.disabled = currentPage === 1;
     if (nextBtn) nextBtn.disabled = currentPage === totalPages;
@@ -105,6 +110,9 @@ function toggleTheme() {
     if (toggleBtn) {
         toggleBtn.innerText = targetTheme === "dark" ? "☀️ 라이트모드" : "🌙 다크모드";
     }
+
+    // 테마 변경 시 Disqus 리셋
+    resetDisqus();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
