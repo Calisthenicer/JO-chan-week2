@@ -1,4 +1,4 @@
-// 운동 데이터베이스 (레벨별 통합 루틴)
+// 1. 운동 데이터베이스 (레벨별 통합 루틴)
 const progressions = {
     pull: [
         {
@@ -89,6 +89,7 @@ const progressions = {
     ]
 };
 
+// 2. 부위별 기본 라인업 매핑
 const partMapping = {
     arms: ["pull", "push"],
     back: ["pull"],
@@ -99,6 +100,7 @@ const partMapping = {
     pull: ["pull"]
 };
 
+// 3. 목적별 조언 데이터
 const goalAdvice = {
     strength: {
         meta: "5세트 x 5회 | 휴식: 3분",
@@ -128,16 +130,18 @@ const goalAdvice = {
 };
 
 const proteinSources = [
-    { name: "닭가슴살 (생물)", proteinPer100g: 23, costPerProtein: 45, example: "100g당 약 1,000원", context: "가장 저렴한 단백질원" },
-    { name: "단백질 보충제 (WPC)", proteinPer100g: 20, costPerProtein: 40, example: "1회당 약 800원", context: "바쁠 때 가장 경제적인 선택" }
+    { name: "닭가슴살 (생물)", proteinPer100g: 23, costPerProtein: 45, context: "가장 저렴한 단백질원" },
+    { name: "단백질 보충제 (WPC)", proteinPer100g: 20, costPerProtein: 40, context: "바쁠 때 가장 경제적인 선택" }
 ];
 
+// 4. 상태 관리 변수
 let selectedPart = null;
 let selectedGoal = null;
 let userLevelIndex = 1;
 
+// 5. 버튼 선택 이벤트 리스너
 function setupSelection() {
-    document.querySelectorAll('.select-item').forEach(btn => {
+    document.querySelectorAll('#part-selection .select-item').forEach(btn => {
         btn.addEventListener('click', function() {
             this.parentElement.querySelectorAll('.select-item').forEach(b => b.classList.remove('selected'));
             this.classList.add('selected');
@@ -154,17 +158,13 @@ function setupSelection() {
     });
 }
 
+// 6. 페이지 전환 함수
 function showPage(pageId) {
-    // 모든 페이지 숨기기
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    // 대상 페이지 보이기
     const targetPage = document.getElementById(pageId);
     if (targetPage) targetPage.classList.add('active');
 
-    // 모든 버튼 비활성화
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    
-    // 현재 활성화된 버튼 표시 로직 수정
     const btnMap = {
         'setup-page': 'nav-setup',
         'assessment-page': 'nav-assessment',
@@ -172,14 +172,12 @@ function showPage(pageId) {
         'guide-page': 'nav-guide',
         'privacy-page': 'nav-privacy'
     };
-    
     const activeBtn = document.getElementById(btnMap[pageId]);
     if (activeBtn) activeBtn.classList.add('active');
-
-    // 상단으로 스크롤
     window.scrollTo(0, 0);
 }
 
+// 7. 진단 시작
 function startAssessment() {
     if (!selectedPart || !selectedGoal) {
         alert("부위와 목적을 먼저 선택해주세요!");
@@ -189,40 +187,33 @@ function startAssessment() {
     showPage('assessment-page');
 }
 
+// 8. 설정 완료 및 루틴 생성
 function completeSetup() {
     const pushVal = parseInt(document.getElementById('eval-push').value);
     const pullVal = parseInt(document.getElementById('eval-pull').value);
     
     userLevelIndex = Math.min(3, Math.round((pushVal + pullVal) / 2));
     
-    const weight = document.getElementById('user-weight').value;
-    if (!weight || weight < 30) {
-        alert("체중을 입력해주세요!");
+    const weightInput = document.getElementById('user-weight').value;
+    if (!weightInput || weightInput < 30) {
+        alert("체중을 올바르게 입력해주세요!");
         return;
     }
 
     const advice = goalAdvice[selectedGoal];
     document.getElementById('nav-workout').disabled = false;
     renderWorkout(advice);
-    renderNutrition(weight, advice);
+    renderNutrition(weightInput, advice);
     showPage('workout-page');
 }
 
+// 9. 루틴 화면 렌더링
 function renderWorkout(advice) {
     const container = document.getElementById("workout-result");
     const patterns = partMapping[selectedPart];
     
-    container.innerHTML = `
-        <div class="mindset-top">
-            <h4>🧠 TODAY'S MINDSET</h4>
-            <p>"${advice.mindset}"</p>
-        </div>
-        <h2 style="text-align:center;">🏋️ 오늘의 통합 루틴 (Level ${userLevelIndex + 1})</h2>
-    `;
+    if (!container) return;
 
-    const patternBox = document.createElement("div");
-    patternBox.className = "active-workout-card";
-    
     let allExercisesHTML = "";
     patterns.forEach(p => {
         const levelData = progressions[p][userLevelIndex];
@@ -233,48 +224,50 @@ function renderWorkout(advice) {
                     <span class="routine-desc">${ex.desc}</span>
                     <span class="intensity-tip">💡 ${ex.intensity}</span>
                 </div>
-                <span class="routine-meta">${advice.meta}</span>
+                <div class="routine-meta">${advice.meta}</div>
             </div>
         `).join('');
     });
 
-    patternBox.innerHTML = `
-        <div class="exercise-display">
+    container.innerHTML = `
+        <div class="mindset-top">
+            <h4>🧠 TODAY'S MINDSET</h4>
+            <p>"${advice.mindset}"</p>
+        </div>
+        <h2 style="text-align:center;">🏋️ 오늘의 통합 루틴 (Level ${userLevelIndex + 1})</h2>
+        <div class="active-workout-card">
             <div class="routine-list-v2">${allExercisesHTML}</div>
         </div>
+        <div class="mistake-section">
+            <h3>⚠️ 과학적 근거에 기반한 경고</h3>
+            ${advice.mistakes.map(m => `
+                <div class="mistake-card">
+                    <h4>${m.title}</h4>
+                    <p>${m.content}</p>
+                </div>
+            `).join('')}
+        </div>
     `;
-    container.appendChild(patternBox);
-
-    const mistakeSection = document.createElement("div");
-    mistakeSection.className = "mistake-section";
-    mistakeSection.innerHTML = `<h3>⚠️ 과학적 근거에 기반한 경고</h3>`;
-    advice.mistakes.forEach(m => {
-        mistakeSection.innerHTML += `
-            <div class="mistake-card">
-                <h4>${m.title}</h4>
-                <p>${m.content}</p>
-            </div>
-        `;
-    });
-    container.appendChild(mistakeSection);
 }
 
+// 10. 영양 가이드 렌더링
 function renderNutrition(weight, advice) {
     const totalGoal = (weight * advice.proteinRatio).toFixed(1);
     const proteinFromMeals = 60;
     const remainingProtein = Math.max(0, (totalGoal - proteinFromMeals)).toFixed(1);
     
     const guideDiv = document.getElementById("guide-content");
-    
+    if (!guideDiv) return;
+
     let proteinHTML = "";
     if (remainingProtein > 0) {
         proteinHTML = proteinSources.map(s => `
             <div class="protein-source-card">
-                <h5>${s.name} (추가 섭취 시)</h5>
+                <h5>${s.name}</h5>
                 <p>${s.context}</p>
                 <ul>
-                    <li>필요 보충량: <strong>하루 약 ${(remainingProtein / (s.proteinPer100g / 100)).toFixed(0)}g</strong></li>
-                    <li>추가 예상 비용: <strong>약 ${(remainingProtein * s.costPerProtein).toLocaleString()}원 / 일</strong></li>
+                    <li>필요 보충량: <strong>약 ${(remainingProtein / (s.proteinPer100g / 100)).toFixed(0)}g</strong></li>
+                    <li>예상 비용: <strong>약 ${(remainingProtein * s.costPerProtein).toLocaleString()}원 / 일</strong></li>
                 </ul>
             </div>
         `).join('');
