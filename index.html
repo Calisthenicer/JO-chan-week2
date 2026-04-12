@@ -16,11 +16,11 @@
 <button class="theme-toggle" onclick="toggleTheme()">🌓 테마 전환</button>
 
 <nav class="navbar">
-    <button class="nav-btn active" onclick="showPage('setup-page')">🎯 루틴 설정</button>
-    <button class="nav-btn" onclick="showPage('assessment-page')" id="nav-assessment" disabled>📝 수준 진단</button>
-    <button class="nav-btn" onclick="showPage('workout-page')" id="nav-workout" disabled>🏋️ 오늘의 운동</button>
-    <button class="nav-btn" onclick="showPage('guide-page')">🥗 영양 전략</button>
-    <button class="nav-btn" onclick="showPage('privacy-page')">⚖️ 정책 안내</button>
+    <button class="nav-btn active" id="nav-setup" onclick="showPage('setup-page')">🎯 루틴 설정</button>
+    <button class="nav-btn" id="nav-assessment" onclick="showPage('assessment-page')" disabled>📝 수준 진단</button>
+    <button class="nav-btn" id="nav-workout" onclick="showPage('workout-page')" disabled>🏋️ 오늘의 운동</button>
+    <button class="nav-btn" id="nav-guide" onclick="showPage('guide-page')">🥗 영양 전략</button>
+    <button class="nav-btn" id="nav-privacy" onclick="showPage('privacy-page')">⚖️ 정책 안내</button>
 </nav>
 
 <div class="container">
@@ -114,14 +114,18 @@
     <!-- 5페이지: 정책 안내 -->
     <div id="privacy-page" class="page">
         <h2>⚖️ 법적 고지 및 정책</h2>
-        <div class="policy-content">
-            <p>본 서비스는 사용자의 안전을 최우선으로 합니다. 자세가 흐트러지면 즉시 중단하십시오.</p>
+        <div class="policy-content" style="background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: left;">
+            <p><strong>개인정보 처리:</strong> 본 사이트는 별도의 개인정보를 서버에 저장하지 않으며, 구글 애드센스 광고 최적화를 위한 쿠키만을 사용합니다.</p>
+            <p><strong>면책 조항:</strong> 제공되는 모든 운동 정보는 교육적 목적이며, 실제 수행 전 전문가의 상담을 권장합니다. 과도한 운동으로 인한 부상의 책임은 본인에게 있습니다.</p>
         </div>
     </div>
 </div>
 
 <footer class="site-footer">
-    <p>&copy; 2026 CALI-ROUTINE. Beyond Your Limit.</p>
+    <div class="footer-content">
+        <p>&copy; 2026 CALI-ROUTINE. All Rights Reserved.</p>
+        <p class="footer-tagline">Beyond Your Limit. Keep Pulling.</p>
+    </div>
 </footer>
 
 <script src="main.js"></script>

@@ -90,7 +90,7 @@ const progressions = {
 };
 
 const partMapping = {
-    arms: ["pull", "push"], // 팔 운동 시 당기기/밀기 통합
+    arms: ["pull", "push"],
     back: ["pull"],
     chest: ["push"],
     upper: ["pull", "push"],
@@ -137,7 +137,7 @@ let selectedGoal = null;
 let userLevelIndex = 1;
 
 function setupSelection() {
-    document.querySelectorAll('#part-selection .select-item').forEach(btn => {
+    document.querySelectorAll('.select-item').forEach(btn => {
         btn.addEventListener('click', function() {
             this.parentElement.querySelectorAll('.select-item').forEach(b => b.classList.remove('selected'));
             this.classList.add('selected');
@@ -155,14 +155,29 @@ function setupSelection() {
 }
 
 function showPage(pageId) {
+    // 모든 페이지 숨기기
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+    // 대상 페이지 보이기
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) targetPage.classList.add('active');
+
+    // 모든 버튼 비활성화
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    const navId = pageId === 'setup-page' ? 'setup-page' : 
-                  pageId === 'assessment-page' ? 'nav-assessment' : 
-                  pageId === 'workout-page' ? 'nav-workout' : pageId;
-    const activeBtn = document.getElementById(navId) || Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(pageId));
+    
+    // 현재 활성화된 버튼 표시 로직 수정
+    const btnMap = {
+        'setup-page': 'nav-setup',
+        'assessment-page': 'nav-assessment',
+        'workout-page': 'nav-workout',
+        'guide-page': 'nav-guide',
+        'privacy-page': 'nav-privacy'
+    };
+    
+    const activeBtn = document.getElementById(btnMap[pageId]);
     if (activeBtn) activeBtn.classList.add('active');
+
+    // 상단으로 스크롤
+    window.scrollTo(0, 0);
 }
 
 function startAssessment() {
@@ -178,7 +193,6 @@ function completeSetup() {
     const pushVal = parseInt(document.getElementById('eval-push').value);
     const pullVal = parseInt(document.getElementById('eval-pull').value);
     
-    // 진단 로직: 푸쉬업과 풀업 능력을 평균내어 레벨 결정
     userLevelIndex = Math.min(3, Math.round((pushVal + pullVal) / 2));
     
     const weight = document.getElementById('user-weight').value;
@@ -247,7 +261,7 @@ function renderWorkout(advice) {
 
 function renderNutrition(weight, advice) {
     const totalGoal = (weight * advice.proteinRatio).toFixed(1);
-    const proteinFromMeals = 60; // 일반적인 삼시세끼를 통해 섭취하는 평균 단백질량 (기본값 60g)
+    const proteinFromMeals = 60;
     const remainingProtein = Math.max(0, (totalGoal - proteinFromMeals)).toFixed(1);
     
     const guideDiv = document.getElementById("guide-content");
@@ -259,7 +273,7 @@ function renderNutrition(weight, advice) {
                 <h5>${s.name} (추가 섭취 시)</h5>
                 <p>${s.context}</p>
                 <ul>
-                    <li>필요 보충량: <strong>하루 약 ${(remainingProtein / (s.proteinPer100g / 100)).toFixed(0)}g</strong> (또는 단위)</li>
+                    <li>필요 보충량: <strong>하루 약 ${(remainingProtein / (s.proteinPer100g / 100)).toFixed(0)}g</strong></li>
                     <li>추가 예상 비용: <strong>약 ${(remainingProtein * s.costPerProtein).toLocaleString()}원 / 일</strong></li>
                 </ul>
             </div>
@@ -270,33 +284,12 @@ function renderNutrition(weight, advice) {
         <div class="guide-section">
             <h4>📊 단백질 섭취 분석 (삼시세끼 제외)</h4>
             <div class="protein-breakdown">
-                <div class="breakdown-item">
-                    <span>전체 일일 목표</span>
-                    <strong class="total">${totalGoal}g</strong>
-                </div>
-                <div class="breakdown-item">
-                    <span>일반 식사(3끼) 충족량</span>
-                    <strong class="meals">- ${proteinFromMeals}g</strong>
-                </div>
+                <div class="breakdown-item"><span>전체 일일 목표</span><strong class="total">${totalGoal}g</strong></div>
+                <div class="breakdown-item"><span>일반 식사(3끼) 충족량</span><strong class="meals">- ${proteinFromMeals}g</strong></div>
                 <div class="breakdown-divider"></div>
-                <div class="breakdown-item result">
-                    <span>추가 보충 필요량</span>
-                    <strong class="remaining">${remainingProtein}g</strong>
-                </div>
+                <div class="breakdown-item result"><span>추가 보충 필요량</span><strong class="remaining">${remainingProtein}g</strong></div>
             </div>
-
-            <p class="nutrition-intro">
-                일반적인 식사를 통해 하루 약 60g의 단백질은 이미 섭취하고 계실 가능성이 높습니다. 
-                목표하신 <strong>${selectedGoal}</strong>을(를) 위해 남은 <strong>${remainingProtein}g</strong>을 아래 방법 중 하나로 보충해 보세요.
-            </p>
-            
-            <div class="protein-grid">
-                ${remainingProtein > 0 ? proteinHTML : '<p class="success-msg">🎉 현재 체중에서는 삼시세끼만 잘 챙겨 드셔도 충분한 단백질이 공급됩니다!</p>'}
-            </div>
-
-            <div class="nutrition-tip">
-                <p>💡 <strong>가성비 조합 추천:</strong> 아침/점심 사이 <strong>계란 2알</strong>, 운동 후 <strong>보충제 1스쿱</strong>이면 가장 경제적으로 남은 목표량을 채울 수 있습니다.</p>
-            </div>
+            <div class="protein-grid">${remainingProtein > 0 ? proteinHTML : '<p class="success-msg">🎉 삼시세끼만으로 충분합니다!</p>'}</div>
         </div>
     `;
 }
