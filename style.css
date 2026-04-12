@@ -12,13 +12,13 @@
 }
 
 [data-theme="light"] {
-    --bg-color: #f1f5f9;
+    --bg-color: #f8fafc;
     --text-color: #0f172a;
     --primary-color: #0284c7;
     --secondary-color: #4f46e5;
     --accent-color: #e11d48;
     --card-bg: #ffffff;
-    --nav-bg: rgba(241, 245, 249, 0.9);
+    --nav-bg: rgba(248, 250, 252, 0.9);
     --easy-color: #0d9488;
     --hard-color: #db2777;
     --border-color: #e2e8f0;
@@ -30,11 +30,10 @@ body {
     color: var(--text-color);
     margin: 0;
     line-height: 1.6;
-    transition: background-color 0.3s;
 }
 
 .container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px 20px 100px;
 }
@@ -72,12 +71,11 @@ body {
     padding: 30px;
     border-radius: 24px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .selection-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 10px;
     margin-bottom: 30px;
 }
@@ -90,7 +88,6 @@ body {
     color: var(--text-color);
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 .select-item.selected {
@@ -109,115 +106,115 @@ body {
     font-size: 1.1rem;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.4);
 }
 
-/* Workout Page */
+/* Workout Page v2 */
 .mindset-top {
     background: rgba(129, 140, 248, 0.1);
-    padding: 20px;
-    border-radius: 16px;
-    border-left: 4px solid var(--secondary-color);
+    padding: 25px;
+    border-radius: 20px;
+    border-left: 5px solid var(--secondary-color);
     margin-bottom: 30px;
     text-align: left;
 }
 
-.mindset-top h4 { margin: 0 0 10px; color: var(--secondary-color); font-size: 0.9rem; }
-.mindset-top p { margin: 0; font-style: italic; font-size: 1rem; }
+.mindset-top h4 { margin: 0 0 8px; color: var(--secondary-color); font-size: 0.85rem; letter-spacing: 0.05em; }
+.mindset-top p { margin: 0; font-size: 1.1rem; font-weight: 600; font-style: italic; }
 
 .active-workout-card {
     background: var(--card-bg);
-    border-radius: 24px;
+    border-radius: 28px;
     padding: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     border: 1px solid var(--border-color);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 15px 30px -10px rgba(0,0,0,0.2);
 }
 
 .pattern-label {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--bg-color);
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 800;
-    letter-spacing: 0.1em;
     color: var(--primary-color);
-    opacity: 0.8;
+    margin-bottom: 20px;
 }
 
-.exercise-name {
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin: 10px 0 20px;
-}
-
-.stats-row {
+.routine-list-v2 {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    gap: 15px;
     margin-bottom: 30px;
 }
 
-.stat-item {
-    flex: 1;
-    background: var(--bg-color);
-    padding: 15px;
-    border-radius: 16px;
-    text-align: center;
-}
-
-.stat-item strong { font-size: 0.8rem; opacity: 0.6; }
-
-.difficulty-controls {
+.routine-item-v2 {
     display: flex;
-    gap: 10px;
-}
-
-.diff-btn {
-    flex: 1;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    font-weight: 800;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: 18px;
     cursor: pointer;
-    transition: 0.2s;
-}
-
-.diff-btn.easy { background: var(--easy-color); color: #0f172a; }
-.diff-btn.hard { background: var(--hard-color); color: white; }
-
-/* Mistakes Section */
-.mistake-section {
-    margin-top: 50px;
+    transition: transform 0.2s, border-color 0.2s;
+    border: 1px solid transparent;
     text-align: left;
 }
 
-.mistake-card {
-    background: rgba(251, 113, 133, 0.05);
-    border: 1px solid rgba(251, 113, 133, 0.2);
-    padding: 20px;
-    border-radius: 16px;
-    margin-bottom: 15px;
+.routine-item-v2:hover {
+    transform: scale(1.02);
+    border-color: var(--primary-color);
 }
 
-.mistake-card h4 { margin: 0 0 10px; color: var(--accent-color); }
-.mistake-card p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
+.routine-info { display: flex; flex-direction: column; flex: 1; }
+.routine-name { font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; }
+.routine-desc { font-size: 0.85rem; opacity: 0.7; font-weight: 500; }
+.routine-meta { font-size: 0.9rem; font-weight: 700; color: var(--secondary-color); margin-left: 15px; white-space: nowrap; }
 
-/* Nutrition Section */
+.difficulty-controls { display: flex; gap: 12px; }
+.diff-btn {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+.diff-btn.easy { background: var(--easy-color); color: #0f172a; }
+.diff-btn.hard { background: var(--hard-color); color: white; }
+
+/* Mistake & Nutrition */
+.mistake-section { margin-top: 60px; text-align: left; }
+.mistake-card {
+    background: rgba(251, 113, 133, 0.05);
+    border: 1px solid rgba(251, 113, 133, 0.15);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+.mistake-card h4 { margin: 0 0 10px; color: var(--accent-color); font-size: 1.1rem; }
+.mistake-card p { margin: 0; font-size: 0.9rem; opacity: 0.85; }
+
+.guide-container { text-align: left; background: var(--card-bg); padding: 30px; border-radius: 24px; }
 .food-examples {
-    margin-top: 20px;
+    margin-top: 25px;
     padding: 20px;
     background: var(--bg-color);
-    border-radius: 16px;
-    font-size: 0.9rem;
+    border-radius: 18px;
+    font-size: 0.95rem;
+    line-height: 1.8;
 }
 
 /* Common */
 .page { display: none; }
-.page.active { display: block; animation: fadeIn 0.4s ease; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.page.active { display: block; animation: fadeIn 0.5s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .theme-toggle {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 25px;
+    right: 25px;
     padding: 12px 20px;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -225,7 +222,13 @@ body {
     border-radius: 30px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-.site-footer { padding: 40px; opacity: 0.4; font-size: 0.8rem; text-align: center; }
+.site-footer { padding: 50px; opacity: 0.4; font-size: 0.8rem; text-align: center; }
+
+@media (max-width: 600px) {
+    .routine-item-v2 { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .routine-meta { margin-left: 0; }
+    .difficulty-controls { flex-direction: column; }
+}
