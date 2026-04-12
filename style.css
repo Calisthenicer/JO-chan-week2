@@ -211,6 +211,14 @@ button:hover:not(:disabled) {
     margin-top: 10px;
 }
 
+/* 댓글 섹션 */
+.comments-section {
+    margin-top: 60px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+}
+
 @media (max-width: 768px) {
     .main-content {
         flex-direction: column;
